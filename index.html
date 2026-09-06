@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <title>Aeternitas project</title>
+</head>
+<body>    
+    <!-- Задний фон сайта -->
+    <div class="bg"></div>    
+    
+    <!-- Верхняя анимированная лента -->
+    <div class="lines"></div>
+
+    <!-- ГЛАВНОЕ ОКНО ПОРТАЛА -->
+    <div class="portal-interface" id="portal-screen">
+        
+        <!-- Описание тайтла и стрелочки навигации -->
+        <div class="title-description-zone">
+            <div class="title-navigation-row">
+                <button class="nav-arrow-btn" id="prev-title-btn">◀</button>
+                <h1 id="current-title-name">Загрузка...</h1>
+                <button class="nav-arrow-btn" id="next-title-btn">▶</button>
+            </div>
+            <p id="current-title-synopsis">Описание комикса подгрузится автоматически.</p>
+        </div>
+
+        <!-- Лента глав, которая крутится колесиком -->
+        <div class="chapters-list" id="chapters-list-container"></div>
+    </div>
+
+    <!-- ОКНО ЧИТАЛКИ -->
+    <div class="reader-overlay" id="comic-reader">
+        <div class="reader-pages" id="reader-pages-container"></div>
+    </div>
+
+    <!-- 👁️ Кнопка-глаз Секретного Архива (в правом верхнем углу) -->
+   <button class="archive-eye-btn" id="archive-eye-btn">
+       <img src="imgR/sol.png" alt="Архив" class="eye-graphic">
+       <span class="archive-indicator" id="archive-indicator"></span>
+  </button>
+
+    <!-- 📁 Выезжающее боковое меню с Досье и Статистикой -->
+    <div class="archive-sidebar" id="archive-sidebar">
+        <button class="close-archive-btn" id="close-archive-btn">❌ Закрыть</button>
+        
+        <h2 class="archive-sidebar-title">БАЗА ДАННЫХ</h2>
+        
+        <!-- Блок Статистики -->
+        <div class="archive-section">
+            <h3> Данные Прогресса</h3>
+            <p>Прочитано глав: <span id="stat-chapters-read" class="stat-value">0</span></p>
+            <p>Уровень вовлечённости: <span id="stat-engagement" class="stat-value">0%</span></p>
+        </div>
+
+        <!-- Блок Собранных Документов (Ачивок) -->
+        <div class="archive-section">
+            <h3>ПЕРСОНАЖИ</h3>
+            <div class="documents-grid" id="documents-grid">
+                <!-- Сюда JavaScript сам добавит ваши секретные файлы -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Градусник вовлеченности -->
+    <div class="engagement-bar-container" id="engagement-bar">
+        <div class="engagement-bar-fill" id="engagement-fill"></div>
+    </div>
+    <!-- Уведомление об обновлении базы данных -->
+<div id="game-alert" class="game-alert-toast">
+  <div class="game-alert-content">
+    <span class="game-alert-icon">📝</span>
+    <span id="game-alert-text">База данных обновлена!</span>
+  </div>
+</div>
+
+    
+    
+</body>
+</html>

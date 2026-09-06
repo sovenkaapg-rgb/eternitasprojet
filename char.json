@@ -1,0 +1,163 @@
+[
+  {
+    "id": "char_georgiy",
+    "titleFolder": "ChernoeBoloto",
+    "type": "Объект №2",
+    "name": "Георгий",
+    "avatar": "ChernoeBoloto/ch1/0000.jpg",
+    "isSecret": true,
+    "unlockPage": "ChernoeBoloto_ch1_p1",
+    "biographyStages": [
+      { "text": "Подросток времени конца света, любит снимать все на камеру.", "page": 0 },
+      { "text": " Пропал без вести при странных обстоятельствах.", "page": "ChernoeBoloto_ch1_p23" }
+    ]
+  },
+  {
+    "id": "char_georgiya",
+    "titleFolder": "ChernoeBoloto",
+    "type": "Объект №1",
+    "name": "Георгия",
+    "avatar": "ChernoeBoloto/ch1/0001.jpg",
+    "isSecret": true,
+    "unlockPage": "ChernoeBoloto_ch1_p2",
+    "biographyStages": [
+      { "text": "Подросток времени конца света, ищет приключения в изоляции.", "page": 0 },
+      { "text": " Пропала без вести во время поисков брата.", "page": "ChernoeBoloto_ch1_p22" },
+      { "text": "Стала Темной роготой хтонью ", "page": "Slepye_ch5_p6" }
+    ]
+  },
+  
+  
+  {
+    "id": "char_soldier_nikola",
+    "titleFolder": "Slepye",
+    "avatar": "Slepye/ch2/cover.jpg",
+    "isSecret": true,
+    "unlockPage": "Slepye_ch1_p2",
+    "nameStages": [
+      { "text": "Выживший", "page": 0 },
+      { "text": "Николай", "page": "Slepye_ch2_p10" }
+    ],
+    "typeStages": [
+      { "text": "???", "page": 0 },
+      { "text": "Вампир", "page": "Slepye_ch2_p10" }
+    ],
+    "biographyStages": [
+      { "text": "Простой служивый, хочет вернуться домой.", "page": 0 },
+      { "text": "Ищет пропавшего брата в заброшенных секторах.", "page": "Slepye_ch2_p10" }
+    ]
+  },
+  
+  {
+    "id": "char_soldier_Petya",
+    "titleFolder": "Slepye",
+    "avatar": "Slepye/ch2/cover.jpg",
+    "isSecret": true,
+    "unlockPage": "Slepye_ch5_p3",
+    "nameStages": [
+      { "text": "Кот", "page": 0 },
+      { "text": "Петя", "page": "Slepye_ch10_p10" }
+    ],
+    "typeStages": [
+      { "text": "Вампир", "page": 0 }
+    ],
+    "biographyStages": [
+      { "text": "Помошник Слепых.", "page": 0 }
+    ]
+  },
+  
+  {
+    "id": "char_runaway_girl",
+    "titleFolder": "Slepye",
+    "avatar": "Slepye/ch3/cover.jpg",
+    "isSecret": true,
+    "unlockPage": "Slepye_ch1_p6",
+    "nameStages": [
+      { "text": "Беглая", "page": 0 },
+      { "text": "Беляночка", "page": "Slepye_ch3_p2" }
+    ],
+    "typeStages": [
+      { "text": "Слепая", "page": 0 }
+    ],
+    "biographyStages": [
+      { "text": "Сбежавшая Слепая. Её истинные цели остаются неизвестны.", "page": 0 },
+      { "text": "Стремится стать служителем солнца.", "page": "Slepye_ch7_p6" }
+    ]
+  },
+  
+  {
+    "id": "char_BlackG",
+    "titleFolder": "Slepye",
+    "avatar": "Slepye/ch3/cover.jpg",
+    "isSecret": true,
+    "unlockPage": "Slepye_ch5_p6",
+    "nameStages": [
+      { "text": "Темная", "page": 0 },
+      { "text": "Георгия", "page": "Slepye_ch22_p2" }
+    ],
+    "typeStages": [
+      { "text": "Слепая", "page": 0 }
+    ],
+    "biographyStages": [
+      { "text": "Биомеханическая Темная слепая ", "page": 0 },
+      { "text": "Хочет остановить Беглую", "page": "Slepye_ch10_p20"}
+    ]
+  },
+  
+  {
+    "id": "Igor",
+    "titleFolder": "Slepye",
+    "avatar": "Slepye/ch3/008.jpg",
+    "isSecret": true,
+    "unlockPage": "Slepye_ch3_p8",
+    "nameStages": [
+      { "text": "Инквизитор", "page": 0 },
+      { "text": "Игорь", "page": "Slepye_ch16_p3" }
+    ],
+    "typeStages": [
+      { "text": "Человек", "page": 0 }
+    ],
+    "biographyStages": [
+      { "text": "Служитель Солнца одержимой очищением мира ", "page": 0 },
+      { "text": "Оващ", "page": "Slepye_ch3_p2" }
+    ]
+  },
+  
+  
+
+    {
+    "id": "Rose_ch",
+    "titleFolder": "DieR",
+    "avatar": "DieR/ch1/008.jpg",
+    "isSecret": true,
+    "unlockPage": "DieR_ch1_p17",
+    "nameStages": [
+      { "text": "Роза", "page": 0 }
+    ],
+    "typeStages": [
+      { "text": "Вампир", "page": 0 }
+    ],
+    "biographyStages": [
+      { "text": "Вампирша которая пытается выживать среди людей", "page": 0 }
+    ]
+  },
+  
+      {
+    "id": "SF",
+    "titleFolder": "DieR",
+    "avatar": "DieR/ch1/017.jpg",
+    "isSecret": true,
+    "unlockPage": "DieR_ch1_p17",
+    "nameStages": [
+      { "text": "Шлафер", "page": 0 }
+    ],
+    "typeStages": [
+      { "text": "Демон", "page": 0 }
+    ],
+    "biographyStages": [
+      { "text": "Ищет книгу", "page": 0 }
+    ]
+  }
+  
+  
+]
