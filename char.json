@@ -5,7 +5,7 @@
     "type": "Объект №2",
     "name": "Георгий",
     "avatar": "ChernoeBoloto/ch1/0000.jpg",
-    "isSecret": true,
+    "isSecret": false,
     "unlockPage": "ChernoeBoloto_ch1_p2",
     "biographyStages": [
       { "text": "Подросток времени конца света, любит снимать все на камеру.", "page": 0 },
@@ -18,7 +18,7 @@
     "type": "Объект №1",
     "name": "Георгия",
     "avatar": "ChernoeBoloto/ch1/0001.jpg",
-    "isSecret": true,
+    "isSecret": false,
     "unlockPage": "ChernoeBoloto_ch1_p2",
     "biographyStages": [
       { "text": "Подросток времени конца света, ищет приключения в изоляции.", "page": 0 },
