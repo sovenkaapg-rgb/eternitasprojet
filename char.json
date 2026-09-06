@@ -6,10 +6,10 @@
     "name": "Георгий",
     "avatar": "ChernoeBoloto/ch1/0000.jpg",
     "isSecret": true,
-    "unlockPage": "ChernoeBoloto_ch1_p1",
+    "unlockPage": "ChernoeBoloto_ch1_p2",
     "biographyStages": [
       { "text": "Подросток времени конца света, любит снимать все на камеру.", "page": 0 },
-      { "text": " Пропал без вести при странных обстоятельствах.", "page": "ChernoeBoloto_ch1_p23" }
+      { "text": " Пропал без вести при странных обстоятельствах.", "page": "ChernoeBoloto_ch1_p22" }
     ]
   },
   {
@@ -22,7 +22,7 @@
     "unlockPage": "ChernoeBoloto_ch1_p2",
     "biographyStages": [
       { "text": "Подросток времени конца света, ищет приключения в изоляции.", "page": 0 },
-      { "text": " Пропала без вести во время поисков брата.", "page": "ChernoeBoloto_ch1_p22" },
+      { "text": "Пропал без вести при странных обстоятельствах.", "page": "ChernoeBoloto_ch1_p22" },
       { "text": "Стала Темной роготой хтонью ", "page": "Slepye_ch5_p6" }
     ]
   },
