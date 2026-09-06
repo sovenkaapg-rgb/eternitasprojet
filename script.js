@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             // Открытие секретного персонажа с нуля
                             if (char.isSecret && char.unlockPage === pageProgressKey) {
                                 dataUpdated = true;
-                                alertMessage = `В архив добавлено дело: ${char.nameStages ? char.nameStages[0].text : char.name}!`;
+                                alertMessage = `Новый персонаж: ${char.nameStages ? char.nameStages[0].text : char.name}!`;
                             }
                             // Проверка скрытых этапов данных
                             const checkArray = [char.nameStages, char.typeStages, char.statusStages, char.biographyStages];
@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     arr.forEach(stage => {
                                         if (stage.page === pageProgressKey) {
                                             dataUpdated = true;
-                                            alertMessage = `Данные Архива обновлены!`;
+                                            alertMessage = `Данные обновлены!`;
                                         }
                                     });
                                 }

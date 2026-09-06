@@ -9,7 +9,7 @@
     "unlockPage": "ChernoeBoloto_ch1_p2",
     "biographyStages": [
       { "text": "Подросток времени конца света, любит снимать все на камеру.", "page": 0 },
-      { "text": " Пропал без вести при странных обстоятельствах.", "page": "ChernoeBoloto_ch1_p21" }
+      { "text": " Пропал без вести при странных обстоятельствах.", "page": "ChernoeBoloto_ch1_p22" }
     ]
   },
   {
@@ -22,8 +22,8 @@
     "unlockPage": "ChernoeBoloto_ch1_p2",
     "biographyStages": [
       { "text": "Подросток времени конца света, ищет приключения в изоляции.", "page": 0 },
-      { "text": "Пропал без вести при странных обстоятельствах.", "page": "ChernoeBoloto_ch1_p21" },
-      { "text": "Стала Темной роготой хтонью ", "page": "Slepye_ch5_p5" }
+      { "text": "Пропал без вести при странных обстоятельствах.", "page": "ChernoeBoloto_ch1_p22" },
+      { "text": "Стала Темной роготой хтонью ", "page": "Slepye_ch5_p6" }
     ]
   },
   
@@ -36,15 +36,15 @@
     "unlockPage": "Slepye_ch1_p2",
     "nameStages": [
       { "text": "Выживший", "page": 0 },
-      { "text": "Николай", "page": "Slepye_ch11_p9" }
+      { "text": "Николай", "page": "Slepye_ch2_p10" }
     ],
     "typeStages": [
       { "text": "???", "page": 0 },
-      { "text": "Вампир", "page": "Slepye_ch2_p9" }
+      { "text": "Вампир", "page": "Slepye_ch2_p10" }
     ],
     "biographyStages": [
       { "text": "Простой служивый, хочет вернуться домой.", "page": 0 },
-      { "text": "Ищет пропавшего брата в заброшенных секторах.", "page": "Slepye_ch8_p14" }
+      { "text": "Ищет пропавшего брата ", "page": "Slepye_ch8_p15" }
     ]
   },
   
@@ -55,8 +55,8 @@
     "isSecret": true,
     "unlockPage": "Slepye_ch5_p3",
     "nameStages": [
-      { "text": "Снайпер", "page":"Slepye_ch5_p1" },
-      { "text": "Петя", "page": "Slepye_ch10_p9" }
+      { "text": "Снайпер", "page":"Slepye_ch5_p2" },
+      { "text": "Петя", "page": "Slepye_ch10_p10" }
     ],
     "typeStages": [
       { "text": "Вампир", "page": 0 }
@@ -73,7 +73,7 @@
     "isSecret": true,
     "unlockPage": "Slepye_ch1_p6",
     "nameStages": [
-      { "text": "Беглая", "page": "Slepye_ch1_p5" },
+      { "text": "Беглая", "page": "Slepye_ch1_p6" },
       { "text": "Беляночка", "page": "Slepye_ch10_p2" }
     ],
     "typeStages": [
@@ -81,7 +81,7 @@
     ],
     "biographyStages": [
       { "text": "Сбежавшая Слепая. Её истинные цели остаются неизвестны.", "page": 0 },
-      { "text": "Стремится стать служителем солнца.", "page": "Slepye_ch7_p5" }
+      { "text": "Стремится стать служителем солнца.", "page": "Slepye_ch7_p6" }
     ]
   },
   
@@ -92,15 +92,15 @@
     "isSecret": true,
     "unlockPage": "Slepye_ch5_p6",
     "nameStages": [
-      { "text": "Темная", "page":  "Slepye_ch5_p5"},
-      { "text": "Георгия", "page": "Slepye_ch22_p1" }
+      { "text": "Темная", "page":  "Slepye_ch5_p6"},
+      { "text": "Георгия", "page": "Slepye_ch22_p2" }
     ],
     "typeStages": [
       { "text": "Слепая", "page": 0 }
     ],
     "biographyStages": [
       { "text": "Биомеханическая Темная слепая ", "page": 0 },
-      { "text": "Хочет остановить Беглую", "page": "Slepye_ch10_p19"}
+      { "text": "Хочет остановить Беглую", "page": "Slepye_ch10_p20"}
     ]
   },
   
@@ -109,17 +109,17 @@
     "titleFolder": "Slepye",
     "avatar": "Slepye/ch3/008.jpg",
     "isSecret": true,
-    "unlockPage": "Slepye_ch3_p7",
+    "unlockPage": "Slepye_ch3_p8",
     "nameStages": [
       { "text": "Инквизитор", "page": 0 },
-      { "text": "Игорь", "page": "Slepye_ch16_p2" }
+      { "text": "Игорь", "page": "Slepye_ch16_p3" }
     ],
     "typeStages": [
       { "text": "Человек", "page": 0 }
     ],
     "biographyStages": [
       { "text": "Служитель Солнца одержимой очищением мира ", "page": 0 },
-      { "text": "Оващ", "page": "Slepye_ch10_p1" }
+      { "text": "Оващ", "page": "Slepye_ch10_p2" }
     ]
   },
   
@@ -147,7 +147,7 @@
     "titleFolder": "DieR",
     "avatar": "DieR/ch1/017.jpg",
     "isSecret": true,
-    "unlockPage": "DieR_ch1_p17",
+    "unlockPage": "DieR_ch1_p16",
     "nameStages": [
       { "text": "Шлафер", "page": 0 }
     ],
