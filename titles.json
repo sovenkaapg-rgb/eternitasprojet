@@ -20,11 +20,11 @@
       { "id": "ch1", "displayNum": "1 ГЛАВА", "pagesCount": 14, "startFrom": 0, "digits": 3 },
       { "id": "ch2", "displayNum": "2 ГЛАВА", "pagesCount": 13, "startFrom": 1, "digits": 3 },
       { "id": "ch3", "displayNum": "3 ГЛАВА", "pagesCount": 16, "startFrom": 2, "digits": 3 },
-      { "id": "ch4", "displayNum": "4 ГЛАВА", "pagesCount": 10, "startFrom": 0, "digits": 3 },
-      { "id": "ch5", "displayNum": "5 ГЛАВА", "pagesCount": 7, "startFrom": 0, "digits": 3 },
-      { "id": "ch6", "displayNum": "6 ГЛАВА", "pagesCount": 21, "startFrom": 0, "digits": 3 },
-      { "id": "ch7", "displayNum": "7 ГЛАВА", "pagesCount": 17, "startFrom": 0, "digits": 4 },
-      { "id": "ch8", "displayNum": "8 ГЛАВА", "pagesCount": 17, "startFrom": 0, "digits": 3 }
+      { "id": "ch4", "displayNum": "4 ГЛАВА", "pagesCount": 10, "startFrom": 1, "digits": 3 },
+      { "id": "ch5", "displayNum": "5 ГЛАВА", "pagesCount": 7, "startFrom": 1, "digits": 3 },
+      { "id": "ch6", "displayNum": "6 ГЛАВА", "pagesCount": 21, "startFrom": 1, "digits": 3 },
+      { "id": "ch7", "displayNum": "7 ГЛАВА", "pagesCount": 17, "startFrom": 1, "digits": 4 },
+      { "id": "ch8", "displayNum": "8 ГЛАВА", "pagesCount": 17, "startFrom": 2, "digits": 3 }
     ]
   },
   { 
