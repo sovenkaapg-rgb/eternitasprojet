@@ -24,7 +24,10 @@
       { "id": "ch5", "displayNum": "5 ГЛАВА", "pagesCount": 7},
       { "id": "ch6", "displayNum": "6 ГЛАВА", "pagesCount": 21},
       { "id": "ch7", "displayNum": "7 ГЛАВА", "pagesCount": 17},
-      { "id": "ch8", "displayNum": "8 ГЛАВА", "pagesCount": 17}
+      { "id": "ch8", "displayNum": "8 ГЛАВА", "pagesCount": 17},
+      { "id": "ch9", "displayNum": "9 ГЛАВА", "pagesCount": 18},
+      { "id": "ch10", "displayNum": "10 ГЛАВА", "pagesCount": 24}
+      
     ]
   },
   { 
@@ -35,7 +38,10 @@
     "unlocksAt": "Slepye_ch8_p14",
     "synopsis": "Повторяющаяся история, что прошла через века.История, начавшаяся с книги и пришедшая к пророчеству, оставленному безумной расой демонов.Чуждые, далекие друг от друга нити связались в хаотичную паутину безумия.", 
     "chapters": [
-      { "id": "ch1", "displayNum": "DieR...", "pagesCount": 16 }
+      { "id": "ch1", "displayNum": "DieR...", "pagesCount": 16 },
+      { "id": "ch2", "displayNum": "Die Rose", "pagesCount": 19 },
+      { "id": "ch3", "displayNum": "Die Rechel", "pagesCount": 24 }
+      
       
     ] },
   { 

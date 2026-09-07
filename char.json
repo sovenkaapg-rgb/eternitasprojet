@@ -4,7 +4,7 @@
     "titleFolder": "ChernoeBoloto",
     "type": "Объект №2",
     "name": "Георгий",
-    "avatar": "ChernoeBoloto/ch1/01.webp",
+    "avatar": "imgR/Geo_av.png",
     "isSecret": true,
     "unlockPage": "ChernoeBoloto_ch1_p2",
     "biographyStages": [
@@ -17,7 +17,7 @@
     "titleFolder": "ChernoeBoloto",
     "type": "Объект №1",
     "name": "Георгия",
-    "avatar": "ChernoeBoloto/ch1/01.webp",
+    "avatar": "imgR/Goy_av.png",
     "isSecret": true,
     "unlockPage": "ChernoeBoloto_ch1_p2",
     "biographyStages": [
@@ -31,12 +31,12 @@
   {
     "id": "char_soldier_nikola",
     "titleFolder": "Slepye",
-    "avatar": "Slepye/ch2/cover..webp",
+    "avatar": "imgR/Nikol_av.png",
     "isSecret": true,
     "unlockPage": "Slepye_ch1_p2",
     "nameStages": [
       { "text": "Выживший", "page": 0 },
-      { "text": "Николай", "page": "Slepye_ch2_p10" }
+      { "text": "Николай", "page": "Slepye_ch11_p10" }
     ],
     "typeStages": [
       { "text": "???", "page": 0 },
@@ -44,14 +44,14 @@
     ],
     "biographyStages": [
       { "text": "Простой служивый, хочет вернуться домой.", "page": 0 },
-      { "text": "Ищет пропавшего брата ", "page": "Slepye_ch8_p15" }
+      { "text": "Ищет пропавшего брата ", "page": "Slepye_ch8_p16" }
     ]
   },
   
   {
     "id": "char_soldier_Petya",
     "titleFolder": "Slepye",
-    "avatar": "Slepye/ch5/02.webp",
+    "avatar": "imgR/Pet_av.png",
     "isSecret": true,
     "unlockPage": "Slepye_ch5_p3",
     "nameStages": [
@@ -62,19 +62,21 @@
       { "text": "Вампир", "page": 0 }
     ],
     "biographyStages": [
-      { "text": "Помошник Слепых.", "page": 0 }
+      { "text": "Помошник Слепых.", "page": 0 },
+      { "text": "Слуга Темной Слепой ", "page": "Slepye_ch10_p10"  }
+      
     ]
   },
   
   {
     "id": "char_runaway_girl",
     "titleFolder": "Slepye",
-    "avatar": "Slepye/ch3/cover.webp",
+    "avatar": "imgR/Belyan_av.png",
     "isSecret": true,
-    "unlockPage": "Slepye_ch1_p6",
+    "unlockPage": "Slepye_ch1_p9",
     "nameStages": [
-      { "text": "Беглая", "page": "Slepye_ch1_p6" },
-      { "text": "Беляночка", "page": "Slepye_ch10_p2" }
+      { "text": "Беглая", "page":0},
+      { "text": "Беляночка", "page": "Slepye_ch15_p2" }
     ],
     "typeStages": [
       { "text": "Слепая", "page": 0 }
@@ -88,7 +90,7 @@
   {
     "id": "char_BlackG",
     "titleFolder": "Slepye",
-    "avatar": "Slepye/ch3/cover.webp",
+    "avatar": "imgR/Geoy2_av.png",
     "isSecret": true,
     "unlockPage": "Slepye_ch5_p6",
     "nameStages": [
@@ -107,7 +109,7 @@
   {
     "id": "Igor",
     "titleFolder": "Slepye",
-    "avatar": "Slepye/ch3/08.webp",
+    "avatar": "imgR/Igor_av.png",
     "isSecret": true,
     "unlockPage": "Slepye_ch3_p8",
     "nameStages": [
@@ -138,10 +140,12 @@
       { "text": "Вампир", "page": 0 }
     ],
     "biographyStages": [
-      { "text": "Вампирша которая пытается выживать среди людей", "page": 0 }
+      { "text": "Вампирша которая пытается выживать среди людей", "page": 0 },
+      { "text": "Украла какуе то книгу", "page": "DieR_ch2_p2"  }
+      
+      
     ]
   },
-  
       {
     "id": "SF",
     "titleFolder": "DieR",
@@ -157,7 +161,40 @@
     "biographyStages": [
       { "text": "Ищет книгу", "page": 0 }
     ]
-  }
+  },
   
+   {
+    "id": "Rachel",
+    "titleFolder": "DieR",
+    "avatar": "DieR/ch2/015.webp",
+    "isSecret": true,
+    "unlockPage": "DieR_ch2_p15",
+    "nameStages": [
+      { "text": "Решель", "page": 0 }
+    ],
+    "typeStages": [
+      { "text": "???", "page": 0 }
+    ],
+    "biographyStages": [
+      { "text": "Странная девушка с молотом", "page": 0 }
+    ]
+  },
+  
+    {
+    "id": "Rachel2",
+    "titleFolder": "DieR",
+    "avatar": "DieR/ch3/14.webp",
+    "isSecret": true,
+    "unlockPage": "DieR_ch3_p2",
+    "nameStages": [
+      { "text": "Решель Ведьма", "page": 0 }
+    ],
+    "typeStages": [
+      { "text": "Человек", "page": 0 }
+    ],
+    "biographyStages": [
+      { "text": "Средневековая ведьма,что призвала демона  ", "page": 0 }
+    ]
+  }
   
 ]
