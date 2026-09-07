@@ -4,7 +4,7 @@
     "titleFolder": "ChernoeBoloto",
     "type": "Объект №2",
     "name": "Георгий",
-    "avatar": "ChernoeBoloto/ch1/0000.jpg",
+    "avatar": "ChernoeBoloto/ch1/01.webp",
     "isSecret": true,
     "unlockPage": "ChernoeBoloto_ch1_p2",
     "biographyStages": [
@@ -17,7 +17,7 @@
     "titleFolder": "ChernoeBoloto",
     "type": "Объект №1",
     "name": "Георгия",
-    "avatar": "ChernoeBoloto/ch1/0001.jpg",
+    "avatar": "ChernoeBoloto/ch1/01.webp",
     "isSecret": true,
     "unlockPage": "ChernoeBoloto_ch1_p2",
     "biographyStages": [
@@ -31,7 +31,7 @@
   {
     "id": "char_soldier_nikola",
     "titleFolder": "Slepye",
-    "avatar": "Slepye/ch2/cover.jpg",
+    "avatar": "Slepye/ch2/cover..webp",
     "isSecret": true,
     "unlockPage": "Slepye_ch1_p2",
     "nameStages": [
@@ -51,7 +51,7 @@
   {
     "id": "char_soldier_Petya",
     "titleFolder": "Slepye",
-    "avatar": "Slepye/ch5/002.jpg",
+    "avatar": "Slepye/ch5/02.webp",
     "isSecret": true,
     "unlockPage": "Slepye_ch5_p3",
     "nameStages": [
@@ -69,7 +69,7 @@
   {
     "id": "char_runaway_girl",
     "titleFolder": "Slepye",
-    "avatar": "Slepye/ch3/cover.jpg",
+    "avatar": "Slepye/ch3/cover.webp",
     "isSecret": true,
     "unlockPage": "Slepye_ch1_p6",
     "nameStages": [
@@ -88,7 +88,7 @@
   {
     "id": "char_BlackG",
     "titleFolder": "Slepye",
-    "avatar": "Slepye/ch3/cover.jpg",
+    "avatar": "Slepye/ch3/cover.webp",
     "isSecret": true,
     "unlockPage": "Slepye_ch5_p6",
     "nameStages": [
@@ -107,7 +107,7 @@
   {
     "id": "Igor",
     "titleFolder": "Slepye",
-    "avatar": "Slepye/ch3/008.jpg",
+    "avatar": "Slepye/ch3/08.webp",
     "isSecret": true,
     "unlockPage": "Slepye_ch3_p8",
     "nameStages": [
@@ -128,7 +128,7 @@
     {
     "id": "Rose_ch",
     "titleFolder": "DieR",
-    "avatar": "DieR/ch1/008.jpg",
+    "avatar": "DieR/ch1/08.webp",
     "isSecret": true,
     "unlockPage": "DieR_ch1_p16",
     "nameStages": [
@@ -145,7 +145,7 @@
       {
     "id": "SF",
     "titleFolder": "DieR",
-    "avatar": "DieR/ch1/017.jpg",
+    "avatar": "DieR/ch1/017.webp",
     "isSecret": true,
     "unlockPage": "DieR_ch1_p16",
     "nameStages": [

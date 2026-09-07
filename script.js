@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const titleData = mangaUniverse[index];
         
         if (siteBackground) { 
-            siteBackground.style.backgroundImage = `url('${titleData.folder}/cover.jpg')`; 
+            siteBackground.style.backgroundImage = `url('${titleData.folder}/cover.webp')`; 
             siteBackground.style.backgroundSize = "cover"; 
             siteBackground.style.backgroundPosition = "center"; 
         }
@@ -72,16 +72,18 @@ document.addEventListener("DOMContentLoaded", () => {
         titleData.chapters.forEach((chapter, chIdx) => {
             const w = document.createElement("div"); w.className = "comic-widget"; 
             const cp = `${titleData.folder}/${chapter.id}`;
-            w.style.backgroundImage = `linear-gradient(90deg, rgba(43,24,43,0.59) 0%, rgba(44,32,60,0.66) 100%), url('${cp}/cover.jpg')`;
-            w.dataset.path = cp; w.dataset.pages = chapter.pagesCount; w.dataset.startFrom = chapter.startFrom; w.dataset.digits = chapter.digits; w.dataset.chIndex = chIdx;
-            w.innerHTML = `<img src="${cp}/cover.jpg" alt="Обложка"><div class="widget-info"><h2 class="comic-title">${titleData.name}</h2><span class="chapter-number">${chapter.displayNum}</span></div><div class="chapter-preview"></div>`;
+            w.style.backgroundImage = `linear-gradient(90deg, rgba(43,24,43,0.59) 0%, rgba(44,32,60,0.66) 100%), url('${cp}/cover.webp')`;
+            w.dataset.path = cp; w.dataset.pages = chapter.pagesCount; w.dataset.chIndex = chIdx;
+            w.innerHTML = `<img src="${cp}/cover.webp" alt="Обложка"><div class="widget-info"><h2 class="comic-title">${titleData.name}</h2><span class="chapter-number">${chapter.displayNum}</span></div><div class="chapter-preview"></div>`;
             chaptersContainer.appendChild(w);
             
-            const pContainer = w.querySelector(".chapter-preview"), pCount = Math.min(chapter.pagesCount, 3);
-            for (let i = chapter.startFrom; i < chapter.startFrom + pCount; i++) {
-                const img = document.createElement("img"); img.src = `${cp}/${String(i).padStart(chapter.digits, '0')}.jpg`;
-                img.style.zIndex = pCount - (i - chapter.startFrom); pContainer.appendChild(img);
-            }
+           const pContainer = w.querySelector(".chapter-preview"), pCount = Math.min(chapter.pagesCount, 3);
+           for (let i = 1; i <= pCount; i++) {
+                const img = document.createElement("img"); 
+                img.src = `${cp}/${String(i).padStart(2, '0')}.webp`
+                img.style.zIndex = pCount - (i - 1); 
+                pContainer.appendChild(img);
+           }
         });
     }
 
@@ -96,21 +98,41 @@ document.addEventListener("DOMContentLoaded", () => {
                 activeChapterData = mangaUniverse[currentTitleIndex].chapters[parseInt(w.dataset.chIndex)];
                 isSecondReading = localStorage.getItem(`manga_unlocked_${mangaUniverse[currentTitleIndex].folder}`) === "true";
                 
-                pagesContainer.innerHTML = "";
-                for (let i = parseInt(w.dataset.startFrom); i < parseInt(w.dataset.startFrom) + parseInt(w.dataset.pages); i++) {
-                    const img = document.createElement("img"); img.src = `${w.dataset.path}/${String(i).padStart(parseInt(w.dataset.digits), '0')}.jpg`; img.className = "manga-page"; pagesContainer.appendChild(img);
+            pagesContainer.innerHTML = "";
+                for (let i = 1; i <= parseInt(w.dataset.pages); i++) {
+                const img = document.createElement("img"); 
+                img.src = `${w.dataset.path}/${String(i).padStart(2, '0')}.webp`;
+                img.className = "manga-page"; 
+                pagesContainer.appendChild(img);
                 }
-                if (isSecondReading && engagementBar) { engagementFill.style.width = "0%"; engagementBar.style.opacity = "1"; }
-                reader.classList.add("active"); reader.scrollTo(0, 0);
-            });
-        }
-        
+
+        if (isSecondReading && engagementBar) { 
+                    engagementFill.style.width = "0%"; 
+                    engagementBar.style.opacity = "1"; 
+                } // <-- Закрыли маленькое условие градусника
+
+                // Проверяем, какой тайтл сейчас открыт
+                const curFolder = mangaUniverse[currentTitleIndex].folder;
+
+                if (curFolder === "ChernoeBoloto") {
+                    // Если это Черное Болото, накладываем уникальный стиль аберрации и размытия
+                    pagesContainer.style.filter = "blur(0.3px) drop-shadow(1.5px 0px 0px rgba(255,0,0,0.35)) drop-shadow(-1.5px 0px 0px rgba(0,0,255,0.35))";
+                } else {
+                    // Для ВСЕХ остальных комиксов очищаем фильтры, оставляя картинку чистой
+                    pagesContainer.style.filter = "none";
+                }
+
+                reader.classList.add("active"); 
+                reader.scrollTo(0, 0);
+            }); // <-- Закрыли само событие клика по виджету
+        } // <-- Закрыли проверку существования chaptersContainer
+
         // 🔄 УМНЫЙ СКРОЛЛ: Высчитывает страницу и сравнивает с char.json
         if (reader) {
             reader.addEventListener("scroll", () => {
                 if (!activeChapterData) return;
                 const pct = reader.scrollTop / (reader.scrollHeight - reader.clientHeight);
-                const curPage = Math.floor(pct * activeChapterData.pagesCount) + activeChapterData.startFrom;
+                const curPage = Math.floor(pct * activeChapterData.pagesCount) + 1;
 
                 if (isSecondReading && engagementFill) engagementFill.style.width = `${Math.min(Math.round(pct * 100), 100)}%`;
                 if (statEngagement) statEngagement.textContent = `${Math.min(Math.round(pct * 100), 100)}%`;
@@ -122,49 +144,57 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (localStorage.getItem(pageProgressKey) !== "true") {
                     localStorage.setItem(pageProgressKey, "true"); 
-                    
-                    let dataUpdated = false;
-                    let alertMessage = "Архив обновлен!";
 
-                    // Проверяем, открывает ли эта страница другой комикс
-                    mangaUniverse.forEach(title => {
-                        if (title.isLocked && title.unlocksAt === pageProgressKey) {
-                            localStorage.setItem(`manga_unlocked_${title.folder}`, "true");
-                            alertMessage = `Открыт доступ к разделу '${title.name}'!`;
-                            dataUpdated = true;
-                        }
-                    });
+let dataUpdated = false;
+let alertMessage = "Архив обновлен!";
+let isTitleUnlockEvent = false; // Флаг: открылся ли целый тайтл
 
-                    // Проверяем, открывает ли страница персонажа или его новые стадии
-                    archiveLoreDatabase.forEach(char => {
-                        if (char.titleFolder === curFolder) {
-                            // Открытие секретного персонажа с нуля
-                            if (char.isSecret && char.unlockPage === pageProgressKey) {
-                                dataUpdated = true;
-                                alertMessage = `Новый персонаж: ${char.nameStages ? char.nameStages[0].text : char.name}!`;
-                            }
-                            // Проверка скрытых этапов данных
-                            const checkArray = [char.nameStages, char.typeStages, char.statusStages, char.biographyStages];
-                            checkArray.forEach(arr => {
-                                if (arr && Array.isArray(arr)) {
-                                    arr.forEach(stage => {
-                                        if (stage.page === pageProgressKey) {
-                                            dataUpdated = true;
-                                            alertMessage = `Данные обновлены!`;
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
+// 1. Проверяем, открывает ли эта страница другой комикс
+mangaUniverse.forEach(title => {
+    if (title.isLocked && title.unlocksAt === pageProgressKey) {
+        localStorage.setItem(`manga_unlocked_${title.folder}`, "true");
+        alertMessage = `Открыт доступ к разделу '${title.name}'!`;
+        dataUpdated = true;
+        isTitleUnlockEvent = true; // Фиксируем приоритет для тайтла
+    }
+});
 
-                    if (dataUpdated) {
-                        if (document.getElementById("archive-indicator")) {
-                            document.getElementById("archive-indicator").style.display = "block";
+// 2. Проверяем персонажей (только если не сработало уведомление о новом тайтле)
+archiveLoreDatabase.forEach(char => {
+    if (char.titleFolder === curFolder) {
+        // Открытие секретного персонажа с нуля
+        if (char.isSecret && char.unlockPage === pageProgressKey) {
+            dataUpdated = true;
+            if (!isTitleUnlockEvent) {
+                alertMessage = `Новый персонаж: ${char.nameStages ? char.nameStages[0].text : char.name}!`;
+            }
+        }
+        // Проверка скрытых этапов биографии и данных
+        const checkArray = [char.nameStages, char.typeStages, char.statusStages, char.biographyStages];
+        checkArray.forEach(arr => {
+            if (arr && Array.isArray(arr)) {
+                arr.forEach(stage => {
+                    if (stage.page === pageProgressKey) {
+                        dataUpdated = true;
+                        if (!isTitleUnlockEvent) {
+                            alertMessage = `Данные Архива обновлены!`;
                         }
-                        showGameAlert(alertMessage);
-                        renderTitle(currentTitleIndex);
                     }
+                });
+            }
+        });
+    }
+});
+
+// 3. Вызов самого уведомления, если что-то обновилось
+if (dataUpdated) {
+    if (document.getElementById("archive-indicator")) {
+        document.getElementById("archive-indicator").style.display = "block";
+    }
+    showGameAlert(alertMessage);
+    renderTitle(currentTitleIndex);
+}
+
                 }
 
                 if (isClosing) return;
@@ -247,7 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (stage.page === 0 || !stage.page) {
                             bioHTML += stage.text;
                         } else if (localStorage.getItem(stage.page) === "true") {
-                            bioHTML += ` <span style="color:#ff7b00;">[ОБНОВЛЕНО]</span> ${stage.text}`;
+                            bioHTML += ` <span style="color:#ff7b00;">[доп.]</span> ${stage.text}`;
                         }
                     });
                 }
@@ -285,7 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("keydown", (e) => {
         if (e.key === "F4") {
             localStorage.clear();
-            alert("🧹 Прогресс сброшен!");
+            alert("ВСЕ ЗАБЫТО!");
             window.location.reload();
         }
     });
