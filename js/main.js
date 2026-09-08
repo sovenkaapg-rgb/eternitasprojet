@@ -102,7 +102,7 @@ function initInteractivity() {
         });
     }
 
-    // ИСПРАВЛЕНО: Чистая логика переключения вкладок
+        // Обновленная логика переключения вкладок (включая Чат)
     const tabButtons = document.querySelectorAll(".archive-tab-btn");
     tabButtons.forEach(btn => {
         btn.addEventListener("click", () => {
@@ -111,15 +111,29 @@ function initInteractivity() {
             
             activeTab = btn.dataset.tab;
             
-            const isArtifacts = (activeTab === "artifacts");
-            const currentDb = isArtifacts ? State.archiveArtifactsDatabase : State.archiveLoreDatabase;
-            updateArchiveDocuments(State.currentTitleIndex, State.mangaUniverse, currentDb, isArtifacts);
+            if (activeTab === "chat") {
+                // Если выбрали чат, передаем особый флаг в ui.js
+                updateArchiveDocuments(State.currentTitleIndex, State.mangaUniverse, [], false, true);
+            } else {
+                const isArtifacts = (activeTab === "artifacts");
+                const currentDb = isArtifacts ? State.archiveArtifactsDatabase : State.archiveLoreDatabase;
+                updateArchiveDocuments(State.currentTitleIndex, State.mangaUniverse, currentDb, isArtifacts, false);
+            }
         });
     });
 
-    if (DOM.closeArchiveBtn && DOM.archiveSidebar) {
-        DOM.closeArchiveBtn.addEventListener("click", () => {
-            DOM.archiveSidebar.classList.remove("open");
+
+       if (DOM.archiveEyeBtn && DOM.archiveSidebar) {
+        DOM.archiveEyeBtn.addEventListener("click", () => {
+            DOM.archiveSidebar.classList.add("open");
+            if (DOM.archiveIndicator) DOM.archiveIndicator.style.display = "none";
+
+            if (activeTab === "chat") {
+                updateArchiveDocuments(State.currentTitleIndex, State.mangaUniverse, [], false, true);
+            } else {
+                const currentDb = (activeTab === "lore") ? State.archiveLoreDatabase : State.archiveArtifactsDatabase;
+                updateArchiveDocuments(State.currentTitleIndex, State.mangaUniverse, currentDb, activeTab === "artifacts", false);
+            }
         });
     }
     

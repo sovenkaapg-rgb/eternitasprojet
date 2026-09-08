@@ -1,4 +1,5 @@
 import { Storage } from './storage.js';
+import { renderComicComments } from './comments.js';
 
 export const DOM = {
     titleName: document.getElementById("current-title-name"),
@@ -77,12 +78,16 @@ export function renderTitle(index, mangaUniverse) {
     DOM.chaptersContainer.appendChild(fragment);
 }
 
-export function updateArchiveDocuments(currentTitleIndex, mangaUniverse, database, isArtifacts = false) {
+export function updateArchiveDocuments(currentTitleIndex, mangaUniverse, database, isArtifacts = false, isChat = false) {
     if (!DOM.documentsGrid) return;
     
     // Кристальная очистка экрана перед новым рендером
     DOM.documentsGrid.innerHTML = ""; 
-    
+    if (isChat) {
+        const curFolder = mangaUniverse[currentTitleIndex].folder;
+        renderComicComments(DOM.documentsGrid, curFolder);
+        return; // Прерываем функцию, чтобы код досье ниже не выполнялся
+    }
     if (!database || database.length === 0) {
         DOM.documentsGrid.innerHTML = `<div class="doc-details" style="padding:10px; text-align: center;">Находок в этой локации пока нет.</div>`;
         return;
