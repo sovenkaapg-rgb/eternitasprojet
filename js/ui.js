@@ -112,8 +112,12 @@ export function updateArchiveDocuments(currentTitleIndex, mangaUniverse, databas
                 }
             });
 
+            
+            
+            
+            
             // ИСПРАВЛЕНО: Путь к аватаркам досье/предметов теперь автоматически перенаправлен в Titles/
-            const correctAvatarPath = item.avatar.startsWith('Titles/') ? item.avatar : `Titles/${item.avatar}`;
+            const correctAvatarPath = item.avatar.startsWith('imgR/') ? item.avatar : `imgR/${item.avatar}`;
 
             div.innerHTML = `
                 <div class="doc-card-layout">
