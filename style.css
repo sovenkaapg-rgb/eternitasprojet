@@ -1,577 +1,240 @@
-
-/* Шрифт для тайтла "Черное Болото"   и дайрс */
-@font-face {
-    font-family: 'DarckF';
-    src: url('fonts/dirs.otf') format('truetype'); /* путь к вашему файлу */
-}
-/* Шрифт для другого тайтла  слепые строгий*/
-@font-face {
-    font-family: 'ClassicF';
-    src: url('fonts/slepy.ttf') format('truetype');
-}
-/* Этернитас */
-@font-face {
-    font-family: 'EsteticF';
-    src: url('fonts/Lazurski Bold.ttf.ttf') format('truetype');
-}
-
-
+/* ==========================================================================
+   ШРИФТЫ И ОБЩИЕ СБРОСЫ
+   ========================================================================== */
+@font-face { font-family: 'DarckF'; src: url('fonts/dirs.otf') format('truetype'); }
+@font-face { font-family: 'ClassicF'; src: url('fonts/slepy.ttf') format('truetype'); }
+@font-face { font-family: 'EsteticF'; src: url('fonts/Lazurski Bold.ttf.ttf') format('truetype'); }
 
 html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden; /* Запрещаем скролл всему сайту */
-    /*background: #181419;/* Запасной темный цвет фона */
+    margin: 0; padding: 0;
+    width: 100%; height: 100vh;
+    overflow: hidden;
 }
 
+/* Общие правила для парящих игровых элементов (Капсула, Уведомления, Кнопка-крестик) */
+.read-progress-bar, .game-alert-toast, .close-reader-btn {
+    background: rgba(15, 12, 18, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Общий неоновый оранжевый эффект при наведении / активации */
+.nav-arrow-btn:hover, .close-reader-btn:hover, .archive-eye-btn:hover {
+    color: white;
+    filter: drop-shadow(0 0 8px #ff7b00);
+}
+
+/* ==========================================================================
+   ГЛАВНЫЙ ЭКРАН И НАВИГАЦИЯ ПОРТАЛА
+   ========================================================================== */
 .bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -2; /* Уводим на самый задний план */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    
-    
-    filter: blur(12px) brightness(0.4); /* Мягкое размытие + затемнение, чтобы текст сиял! */
-    
-    transform: scale(1.05);
-    /* Если эта строчка есть, временно закомментируйте её или удалите, */
-    /* чтобы проверить, появится ли картинка на полную яркость: */
-    /* filter: brightness(0.4); */ 
+    position: fixed; top: 0; left: 0;
+    width: 100vw; height: 100vh; z-index: -2;
+    background-size: cover; background-position: center; background-repeat: no-repeat;
+    filter: blur(12px) brightness(0.4); transform: scale(1.05);
 }
 
-/* Верхняя анимированная полоса */
 .lines {
-    position: fixed;
+    position: fixed; top: 5px; left: 0;
+    width: 100%; height: 20px; z-index: 10;
     background-image: repeating-linear-gradient(-45deg, black, black 10px, chocolate 10px, chocolate 20px);
     background-size: 56.57px 56.57px;
-    width: 100%;
-    height: 20px;
-    top: 5px;     /* Ваш любимый зазор сверху */
-    left: 0;
     animation: movelef 2s linear infinite;
-    z-index: 10;  
 }
-
-@keyframes movelef {
-    0% { background-position: 0 0; }
-    100% { background-position: -56.57px 0; }
-}
-
-
-
-/* Ряд навигации тайтлов */
-.title-navigation-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Магия: расталкивает стрелки по краям, а название оставляет по центру */
-    max-width: 600px;               /* Ограничиваем ширину ряда по ширине виджетов */
-    width: 100%;
-    margin-bottom: 15px;
-}
-
-/* Сами кнопки-стрелочки */
-.nav-arrow-btn {
-    background: none;
-    border: none;
-    color: #ff7b00;
-    font-size: 28px;
-    cursor: pointer;
-    transition: transform 0.2s ease, color 0.2s ease;
-    padding: 10px;
-    flex-shrink: 0; /* Запрещаем кнопкам сжиматься */
-}
-
-
-.nav-arrow-btn:hover {
-    color: #9f9e9e;
-    transform: scale(1.2);
-}
-
-/* Центрируем само название внутри отведенного места */
-#current-title-name {
-    margin: 0;
-    font-size: 32px;
-    text-align: center;
-    flex-grow: 1; /* Занимает всё пространство между стрелками */
-}
-
-
-.lock-notice {
-    color: #633851; /* Мрачный красный цвет */
-    font-family: ClassicF;
-    font-size: 16px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 30px;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px dashed rgba(255, 59, 48, 0.4);
-    border-radius: 12px;
-    text-align: center;
-    max-width: 600px;
-    box-sizing: border-box;
-}
-
-
-/* ==========================================
-   🖼️ ИНТЕРФЕЙС ПОРТАЛА (НОВАЯ СТРУКТУРА)
-   ========================================== */
+@keyframes movelef { 0% { background-position: 0 0; } 100% { background-position: -56.57px 0; } }
 
 .portal-interface {
-    width: 100%;
-    height: 100vh;
-    box-sizing: border-box;
-    padding-top: 40px; /* Отступаем, чтобы не заехать под верхнюю линию */
-    display: flex;
-    flex-direction: column;
+    width: 100%; height: 100vh; box-sizing: border-box;
+    padding-top: 40px; display: flex; flex-direction: column;
 }
 
-/* Блок описания тайтла вверху экрана */
-.title-description-zone {
-    max-width: 650px;
-    margin-left: 8%;
-    margin-bottom: 15px;
-    color: white;
-    font-family: 'ComicCustom', EsteticF; /* Применяем ваш шрифт! */
+.title-navigation-row {
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: 600px; width: 100%; margin-bottom: 15px;
 }
 
-.title-description-zone h1 {
-    margin: 0 0 10px 0;
-    font-size: 32px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+.nav-arrow-btn {
+    background: none; border: none; color: #ff7b00; font-size: 28px;
+    cursor: pointer; padding: 10px; flex-shrink: 0;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+.nav-arrow-btn:hover { transform: scale(1.2); }
+
+#current-title-name { margin: 0; font-size: 32px; text-align: center; flex-grow: 1; }
+
+.title-description-zone { max-width: 650px; margin-left: 8%; margin-bottom: 15px; color: white; font-family: 'ComicCustom', EsteticF; }
+.title-description-zone h1 { margin: 0 0 10px 0; font-size: 32px; text-transform: uppercase; letter-spacing: 2px; }
+.title-description-zone p { margin: 0; font-size: 15px; line-height: 1.5; color: #b0aab2; }
+
+.lock-notice {
+    color: #633851; font-family: ClassicF; font-size: 16px; font-weight: bold;
+    text-transform: uppercase; letter-spacing: 1px; padding: 30px;
+    background: rgba(0, 0, 0, 0.5); border: 1px dashed rgba(255, 59, 48, 0.4);
+    border-radius: 12px; text-align: center; max-width: 600px; box-sizing: border-box;
 }
 
-.title-description-zone p {
-    margin: 0;
-    font-size: 15px;
-    line-height: 1.5;
-    color: #b0aab2;
-}
-
-/* Список глав */
+/* ==========================================================================
+   СПИСОК ГЛАВ И КОМИКС-ВИДЖЕТЫ
+   ========================================================================== */
 .chapters-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    
-    /* Математика: вычитаем высоту описания и зазоров */
-    height: calc(100vh - 180px);           
-    max-height: calc(100vh - 180px);
-    overflow-y: auto;        
-    
-    max-width: 650px;
-    margin-left: 8%;
-    padding-bottom: 40px; /* Зазор снизу экрана */
-    
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    position: relative;
-    z-index: 1; 
-    
-    /* Мягкое альфа-растворение карточек при прокрутке */
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 90%, transparent 100%);
+    display: flex; flex-direction: column; gap: 20px;
+    height: calc(100vh - 180px); max-height: calc(100vh - 180px); overflow-y: auto;        
+    max-width: 650px; margin-left: 8%; padding-bottom: 40px;
+    scrollbar-width: none; position: relative; z-index: 1; 
     mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 90%, transparent 100%);
 }
-
 .chapters-list::-webkit-scrollbar { display: none; }
 
-/* Виджет карточки главы */
 .comic-widget {
-    display: flex;
-    align-items: center;
-    height: 150px;       
-    width: 100%;
-    padding: 12px;
-    box-sizing: border-box;
-    border-radius: 12px;
-    filter: brightness(0.6) saturate(0.5);
+    display: flex; align-items: center; height: 150px; width: 100%; padding: 12px;
+    box-sizing: border-box; border-radius: 12px; filter: brightness(0.6) saturate(0.5);
+    background-size: cover; background-position: center; flex-shrink: 0; position: relative; overflow: hidden;    
     transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;    
-    background-size: cover;
-    background-position: center;
-    flex-shrink: 0; 
 }
+.comic-widget:hover { filter: brightness(1) saturate(1); box-shadow: 0 8px 25px rgba(0,0,0,0.5); }
+.comic-widget > img { width: 100px; height: 100%; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
 
-.comic-widget:hover {
-    filter: brightness(1) saturate(1);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-}
-
-/* Обложка внутри виджета */
-.comic-widget > img {
-    width: 100px;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-    flex-shrink: 0;
-}
-
-/* Текстовый блок внутри виджета */
-.widget-info {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-left: 15px;
-    flex-shrink: 0;
-    font-family: 'ComicCustom', sans-serif;
-    color: white;
-}
-
+.widget-info { display: flex; flex-direction: column; gap: 6px; margin-left: 15px; flex-shrink: 0; font-family: 'ComicCustom', sans-serif; color: white; }
 .comic-title { margin: 0; font-size: 20px; }
 .chapter-number { color: #ff7b00; font-size: 15px; font-weight: bold; }
 
-/* Контейнер веера-превью */
-.chapter-preview {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    flex-grow: 1;        
-    height: 100%;
-    margin-left: 15px;
-    padding-right: 5px;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s ease;
-}
+.chapter-preview { display: flex; align-items: center; justify-content: flex-end; flex-grow: 1; height: 100%; margin-left: 15px; padding-right: 5px; opacity: 0; visibility: hidden; transition: all 0.4s ease; }
+.chapter-preview img { height: 85%; width: auto; object-fit: cover; border-radius: 4px; box-shadow: 10px 0 20px rgba(20, 21, 27, 0.68); margin-left: -35px; position: relative; }
+.comic-widget:hover .chapter-preview { opacity: 1; visibility: visible; }
 
-.chapter-preview img {
-    height: 85% !important;
-    width: auto !important;
-    object-fit: cover;
-    border-radius: 4px;
-    
-    /* ИСПРАВЛЕНИЕ: Тень теперь падает вправо (первая цифра 5px вместо -5px), 
-       чтобы верхняя страница отбрасывала тень на те, что прячутся под ней */
-    box-shadow: 10px 0 20px rgba(20, 21, 27, 0.68);
-    
-    /* Сдвигаем картинки, чтобы они заезжали друг под друга */
-    margin-left: -35px;  
-    
-    /* Добавляем position, иначе браузер проигнорирует z-index из JavaScript */
-    position: relative; 
-}
-
-.comic-widget:hover .chapter-preview {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* ==========================================
-   📖 СТИЛИ ОКНА ЧИТАЛКИ
-   ========================================== */
+/* ==========================================================================
+   ОКНО ЧТЕНИЯ И ИНДИКАТОРЫ
+   ========================================================================== */
 .reader-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(10, 10, 10, 0.96); 
-    overflow-y: auto;    
-    z-index: 8;          
-    
-    /* МАГИЯ ПЛАВНОСТИ: Изначально читалка полностью прозрачна и невидима для кликов */
-    opacity: 0;
-    visibility: hidden;
-    
-    /* Окно будет плавно растворяться и появляться за 0.4 секунды */
-    transition: opacity 0.4s ease, visibility 0.4s ease;      
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+    background: rgba(10, 10, 10, 0.96); overflow-y: auto; z-index: 8;          
+    opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s ease;      
 }
-.reader-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
+.reader-overlay.active { opacity: 1; visibility: visible; }
 
 .reader-pages {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;           
-    padding-top: 40px;   
-    padding-bottom: 120px;
+    display: flex; flex-direction: column; align-items: center; gap: 15px;           
+    padding-top: 40px; padding-bottom: 100vh; 
 }
+.manga-page { max-width: 800px; width: 100%; height: auto; display: block; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); }
 
-.manga-page {
-    max-width: 800px;    
-    width: 100%;
-    height: auto;        
-    display: block;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); 
+/* Парящая капсула прогресса */
+.read-progress-bar {
+    position: fixed; bottom: 25px; left: 50%;
+    transform: translateX(-50%); width: 280px; height: 8px;
+    border-radius: 20px; z-index: 99; overflow: hidden;
 }
-
-
-/* ==========================================
-   👁️ МОДУЛЬ 6: СЕКРЕТНЫЙ АРХИВ И ДОСЬЕ
-   ========================================== */
-/* Красный индикатор новинки на глазу */
-.archive-indicator {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    width: 12px;
-    height: 12px;
-    background: #ff3b30;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #ff3b30;
-    display: none; /* Включается через JS, когда нашли досье */
-}
-/* Выезжающая боковая панель */
-.archive-sidebar {
-    position: fixed;
-    top: 0;
-    right: -350px; /* Изначально полностью спрятана за правым краем экрана */
-    width: 320px;
-    height: 100vh;
-    background: rgba(15, 12, 18, 0.98);
-    border-left: 2px solid rgba(255, 123, 0, 0.3);
-    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px);
-    z-index: 100; /* Перекрывает всё */
-    padding: 30px 20px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    transition: right 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); /* Плавный выезд */
-}
-/* Класс активации выезда (накладывается через JS) */
-.archive-sidebar.open {
-    right: 0;
-}
-.close-archive-btn {
-    align-self: flex-end;
-    background: none; border: none; color: #888;
-    font-size: 14px; cursor: pointer; margin-bottom: 20px;
-}
-.close-archive-btn:hover { color: white; }
-.archive-sidebar-title {
-    color: #ff7b00; margin: 0 0 25px 0; font-size: 22px;
-    letter-spacing: 1px; text-shadow: 0 0 10px rgba(255, 123, 0, 0.3);
-    font-family: sans-serif;
-}
-.archive-section {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 20px;
-    color: #e2dbe5;
-    font-family: sans-serif;
-}
-.archive-section h3 { margin: 0 0 12px 0; font-size: 15px; color: #b81d6d; text-transform: uppercase; }
-.archive-section p { margin: 6px 0; font-size: 14px; }
-.stat-value { color: #ff7b00; font-weight: bold; }
-/* Сетка секретных документов */
-.documents-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-height: 50vh;
-    overflow-y: auto;
-}
-/* Карточка отдельного файла/досье */
-.doc-item {
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    font-size: 13px;
-    color: #b0aab2;
-    transition: all 0.3s ease;
-}
-/* Если документ секретный и ещё закрыт */
-.doc-item.locked {
-    border-color: rgba(255, 255, 255, 0.05);
-    color: #555;
-}
-/* Если документ только что открылся и активен */
-.doc-item.unlocked {
-    border-color: #ff7b00;
-    color: white;
-    background: rgba(255, 123, 0, 0.05);
-    animation: pulse-border 2s infinite alternate;
-}
-/* Кнопка Архива (Идеально подстроена под ваш знак) */
-.archive-eye-btn {
-    position: fixed;
-    top: 15px;
-    right: 3%;         /* Переносим в правый верхний угол, но отодвигаем, чтобы не перекрывать стрелочку */
-    background: none;  /* Убираем фон, чтобы знак парил */
-    border: none;      /* Убираем круглую рамку */
-    width: 60px;       /* Задаем фиксированный размер под вашу графику */
-    height: 60px;
-    cursor: pointer;
-    z-index: 5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* Добавляем мягкое оранжевое неоновое свечение вокруг вашей иконки */
-    filter: drop-shadow(0 0 8px rgba(255, 123, 0, 0.5));
-    /* Настройка плавности для вращения */
-    transition: filter 0.3s ease;
-}
-
-/* Стили для самой картинки внутри кнопки */
-.eye-graphic {
-    width: 90%;
-    height: 90%;
-    object-fit: contain;
-    /* transition управляет плавным возвращением иконки в исходное положение, когда убираем мышку */
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); 
-}
-/* МАГИЯ: Заставляем иконку крутиться при наведении мышки на кнопку */
-.archive-eye-btn:hover .eye-graphic {
-    transform: rotate(180deg) scale(1.1); /* Прокрутится ровно на половину оборота и чуть увеличится */
-    filter: brightness(1.2);
-}
-/* ==========================================
-   📐 ИСПРАВЛЕНИЕ И СТИЛИЗАЦИЯ КАРТОЧЕК ДОСЬЕ
-   ========================================== */
-
-/* Вертикальный скроллящийся контейнер для досье */
-.documents-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    max-height: 55vh; /* Ограничиваем высоту, чтобы внутри панели появился аккуратный скролл */
-    overflow-y: auto;
-    padding-right: 5px;
-    scrollbar-width: none; /* Прячем полосу прокрутки в Firefox */
-}
-.documents-grid::-webkit-scrollbar { display: none; } /* Прячем скроллбар в Chrome/Яндекс */
-
-/* Выравниваем аватарку слева, а текст справа */
-.doc-card-layout {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    width: 100%;
-}
-
-/* Круглая аватарка персонажа или объекта в архиве */
-.doc-avatar {
-    width: 55px;
-    height: 55px;
-    border-radius: 8px; /* Стильные слегка скругленные углы */
-    object-fit: cover;
-    border: 1px solid rgba(255, 123, 0, 0.4);
-    flex-shrink: 0;
-    box-shadow: 0 0 8px rgba(255, 123, 0, 0.1);
-}
-
-/* Силуэт-замок для скрытого лора */
-.doc-avatar.silhouette {
-    background: rgba(0, 0, 0, 0.5);
-    border-color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #ff3b30;
-    font-size: 18px;
-}
-
-/* Текстовый блок внутри карточки досье */
-.doc-text-block {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    text-align: left; /* Жестко прижимаем текст влево, чтобы ничего не косило */
-}
-
-/* Маленький ярлык типа данных (Персонаж / Термин) */
-.doc-type-tag {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #b81d6d;
-    font-weight: bold;
-}
-
-/* Имя героя */
-.doc-name {
-    margin: 2px 0 4px 0;
-    font-size: 15px;
-    color: white;
-}
-
-/* Краткая история/описание */
-.doc-details {
-    margin: 0;
-    font-size: 12px;
-    line-height: 1.4;
-    color: #a09aa3;
-}
-
-
-/* Контейнер для градусника вовлеченности в читалке */
-.engagement-bar-container {
-    position: fixed;
-    bottom: 25px; /* Чуть выше нижней анимированной линии */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 300px;
-    height: 12px;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
-    z-index: 9;
-    overflow: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-/* Сама заполняющаяся шкала градусника */
-.engagement-bar-fill {
-    width: 0%; 
-    height: 100%;
-    /* ИСПРАВЛЕНО: добавлена запятая между цветами rgb и rgba */
-    background: linear-gradient(90deg, rgb(37, 33, 34), rgba(115, 31, 65, 0.87));
-    box-shadow: 0 0 10px #252525;
+.read-progress-fill {
+    width: 0%; height: 100%; background: #ff7b00; border-radius: 20px;
+    box-shadow: 0 0 10px #ff7b00, 0 0 20px rgba(255, 123, 0, 0.8);
     transition: width 0.1s linear;
 }
 
-
-
-/* ==========================================
-   🔔 ВСПЛЫВАЮЩИЕ ИГРОВЫЕ УВЕДОМЛЕНИЯ (TOAST)
-   ========================================== */
-.game-alert-toast {
-    position: fixed;
-    bottom: 25px;
-    right: -350px; /* Изначально скрыто за правым краем */
-    background: rgba(15, 12, 18, 0.95);
-    border: 1px solid #ff7b00;
-    border-radius: 8px;
-    padding: 14px 20px;
-    box-shadow: 0 0 15px rgba(255, 123, 0, 0.3), inset 0 0 10px rgba(255, 123, 0, 0.1);
-    backdrop-filter: blur(8px);
-    z-index: 1000; /* Выше читалки и архива */
-    transition: right 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Эффект приятного отскока */
+/* Кнопка закрытия читалки (слева) */
+.close-reader-btn {
+    position: fixed; top: 35px; left: 25px;
+    width: 40px; height: 40px; border-radius: 50%;
+    color: #888; font-size: 24px; line-height: 36px; text-align: center;
+    cursor: pointer; z-index: 101; transition: all 0.3s ease;
+}
+.close-reader-btn:hover {
+    border-color: #ff7b00;
+    background: rgba(255, 123, 0, 0.15);
+    transform: scale(1.1);
 }
 
-/* Класс активации для показа */
-.game-alert-toast.show {
-    right: 25px; /* Выезжает на экран */
-}
+/* ==========================================================================
+   БОКОВОЕ МЕНЮ СЕКРЕТНОГО АРХИВА
+   ========================================================================== */
+.archive-indicator { position: absolute; top: 2px; right: 2px; width: 12px; height: 12px; background: #ff3b30; border-radius: 50%; box-shadow: 0 0 8px #ff3b30; display: none; }
 
-.game-alert-content {
+.archive-sidebar {
+    position: fixed; top: 0; right: -350px; width: 320px; height: 100vh;
+    background: rgba(15, 12, 18, 0.98); border-left: 2px solid rgba(255, 123, 0, 0.3); box-shadow: -10px 0 30px rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px); z-index: 100; padding: 30px 20px; box-sizing: border-box;
+    display: flex; flex-direction: column; transition: right 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.archive-sidebar.open { right: 0; }
+
+.close-archive-btn { align-self: flex-end; background: none; border: none; color: #888; font-size: 14px; cursor: pointer; margin-bottom: 20px; }
+.close-archive-btn:hover { color: white; }
+
+.archive-sidebar-title { color: #ff7b00; margin: 0 0 25px 0; font-size: 22px; letter-spacing: 1px; text-shadow: 0 0 10px rgba(255, 123, 0, 0.3); font-family: sans-serif; }
+
+.archive-eye-btn { position: fixed; top: 50vh; right: 3%; background: none; border: none; width: 60px; height: 60px; cursor: pointer; z-index: 5; display: flex; justify-content: center; align-items: center; filter: drop-shadow(0 0 8px rgba(255, 123, 0, 0.5)); transition: filter 0.3s ease; }
+.eye-graphic { width: 90%; height: 90%; object-fit: contain; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+.archive-eye-btn:hover .eye-graphic { transform: rotate(180deg) scale(1.1); filter: brightness(1.2); }
+
+/* Сетка документов и карточки досье */
+.documents-grid {
+    display: flex; flex-direction: column; gap: 15px;
+    max-height: 75vh; overflow-y: auto; padding-right: 5px;
+    scrollbar-width: none;
+}
+.documents-grid::-webkit-scrollbar { display: none; }
+
+.doc-item { padding: 10px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; font-size: 13px; color: #b0aab2; transition: all 0.3s ease; }
+.doc-item.locked { border-color: rgba(255, 255, 255, 0.05); color: #555; }
+.doc-item.unlocked { border-color: #ff7b00; color: white; background: rgba(255, 123, 0, 0.05); }
+
+.doc-card-layout { display: flex; align-items: flex-start; gap: 12px; width: 100%; }
+
+.doc-avatar { width: 55px; height: 55px; border-radius: 8px; object-fit: cover; border: 1px solid rgba(255, 123, 0, 0.4); flex-shrink: 0; box-shadow: 0 0 8px rgba(255, 123, 0, 0.1); }
+.doc-avatar.silhouette { background: rgba(0, 0, 0, 0.5); border-color: #333; display: flex; justify-content: center; align-items: center; color: #ff3b30; font-size: 18px; }
+
+.doc-text-block { display: flex; flex-direction: column; gap: 2px; text-align: left; }
+.doc-type-tag { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #b81d6d; font-weight: bold; }
+.doc-name { margin: 2px 0 4px 0; font-size: 15px; color: white; }
+.doc-details { 
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.4; color: #a09aa3; }
+/* ==========================================ИГРОВЫЕ УВЕДОМЛЕНИЯ (TOAST)========================================== */
+.game-alert-toast {position: fixed; bottom: 25px; right: -350px; z-index: 1000;border-radius: 8px; padding: 14px 20px;box-shadow: 0 0 15px rgba(255, 123, 0, 0.3), inset 0 0 10px rgba(255, 123, 0, 0.1);border-color: #ff7b00;transition: right 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
+.game-alert-toast.show { right: 25px; }
+.game-alert-content { display: flex; align-items: center; gap: 12px; font-family: sans-serif; color: #e2dbe5; font-size: 14px; letter-spacing: 0.5px; }
+.game-alert-icon { font-size: 18px; filter: drop-shadow(0 0 5px #ff7b00); }
+/* Контейнер для вкладок на всю ширину меню */
+.archive-tabs-nav {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    font-family: sans-serif;
-    color: #e2dbe5;
-    font-size: 14px;
-    letter-spacing: 0.5px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Темная подложка */
+    border: 1px solid rgba(255, 123, 0, 0.15);
+    border-radius: 8px; /* Скругляем края всей плашки */
+    margin-bottom: 20px;
+    overflow: hidden;
+    padding: 3px; /* Внутренний зазор */
+    box-sizing: border-box;
 }
 
-.game-alert-icon {
-    font-size: 18px;
-    filter: drop-shadow(0 0 5px #ff7b00);
+/* Стильные кнопки переключения */
+.archive-tab-btn {
+    flex: 1; /* Каждая кнопка занимает ровно половину ширины */
+    background: none;
+    border: none;
+    color: #666; /* Неактивный текст делаем приглушенным */
+    font-size: 14px;
+    font-family: sans-serif;
+    font-weight: bold;
+    padding: 10px 0;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+}
+
+/* Эффект наведения на неактивную вкладку */
+.archive-tab-btn:hover:not(.active) {
+    color: #b0aab2;
+}
+
+/* Активная вкладка с мягким неоновым свечением */
+.archive-tab-btn.active {
+    background: rgba(255, 123, 0, 0.12); /* Прозрачный оранжевый фон */
+    color: #ff7b00; /* Яркий рыжий текст */
+    border: 1px solid rgba(255, 123, 0, 0.3);
+    text-shadow: 0 0 8px rgba(255, 123, 0, 0.5);
+    box-shadow: inset 0 0 10px rgba(255, 123, 0, 0.05);
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <script src="js/main.js" type="module"></script>
     <title>Aeternitas project</title>
 </head>
 <body>    
@@ -33,6 +33,10 @@
 
     <!-- ОКНО ЧИТАЛКИ -->
     <div class="reader-overlay" id="comic-reader">
+         <div class="read-progress-bar">
+        <div id="read-progress-fill" class="read-progress-fill"></div> </div>
+        <!-- ВСТАВИТЬ СЮДА: Кнопка быстрого закрытия главы -->
+    <button id="close-reader-btn" class="close-reader-btn" title="Закрыть главу">×</button>
         <div class="reader-pages" id="reader-pages-container"></div>
     </div>
 
@@ -41,33 +45,21 @@
        <img src="imgR/sol.png" alt="Архив" class="eye-graphic">
        <span class="archive-indicator" id="archive-indicator"></span>
   </button>
-
-    <!-- 📁 Выезжающее боковое меню с Досье и Статистикой -->
-    <div class="archive-sidebar" id="archive-sidebar">
-        <button class="close-archive-btn" id="close-archive-btn">❌ Закрыть</button>
-        
-        <h2 class="archive-sidebar-title">БАЗА ДАННЫХ</h2>
-        
-        <!-- Блок Статистики -->
-        <div class="archive-section">
-            <h3> Данные Прогресса</h3>
-            <p>Прочитано глав: <span id="stat-chapters-read" class="stat-value">0</span></p>
-            <p>Уровень вовлечённости: <span id="stat-engagement" class="stat-value">0%</span></p>
-        </div>
-
-        <!-- Блок Собранных Документов (Ачивок) -->
-        <div class="archive-section">
-            <h3>ПЕРСОНАЖИ</h3>
-            <div class="documents-grid" id="documents-grid">
-                <!-- Сюда JavaScript сам добавит ваши секретные файлы -->
-            </div>
-        </div>
+<!-- боковое меню -->
+   <div id="archive-sidebar" class="archive-sidebar">
+    <button id="close-archive-btn" class="close-archive-btn">×</button>
+    <h2 class="archive-sidebar-title">Секретный Архив</h2>
+    
+    <!-- ОЧИЩЕННЫЙ БЛОК ПЕРЕКЛЮЧЕНИЯ ТАБОВ -->
+    <div class="archive-tabs-nav">
+        <button class="archive-tab-btn active" data-tab="lore">Досье</button>
+        <button class="archive-tab-btn" data-tab="artifacts">Предметы</button>
     </div>
 
-    <!-- Градусник вовлеченности -->
-    <div class="engagement-bar-container" id="engagement-bar">
-        <div class="engagement-bar-fill" id="engagement-fill"></div>
-    </div>
+    <div id="documents-grid" class="documents-grid"></div>
+</div>
+
+
     <!-- Уведомление об обновлении базы данных -->
 <div id="game-alert" class="game-alert-toast">
   <div class="game-alert-content">
