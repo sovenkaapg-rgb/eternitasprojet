@@ -9,7 +9,7 @@ export async function initSiteCounter() {
     const key = "first-counter-5459";
 
     // API-ссылка для автоматического накручивания +1 просмотра при каждом заходе
-    const incrementUrl = `https://counterapi.dev{namespace}/${key}/increment`;
+    const incrementUrl = `https://counterapi.sovenkaapgs-team-5459/${key}/increment`;
 
     let currentCount = "000000"; // Стартовое значение на случай сбоя сети
 
