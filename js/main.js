@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         State.archiveArtifactsDatabase = data.artifactsData;
 
         // 2. ЗАПУСК СКРЫТОГО СЧЁТЧИКА
-        initSiteCounter();
+        await initSiteCounter();
 
         // 3. Инициализируем статусы скрытых комиксов
         for (let i = 0, len = State.mangaUniverse.length; i < len; i++) {

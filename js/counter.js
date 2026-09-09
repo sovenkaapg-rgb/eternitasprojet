@@ -1,26 +1,35 @@
 /**
- * Модуль скрытого неонового счётчика посетителей (Левый нижний угол) + GoatCounter
+ * Модуль скрытого неонового счётчика посетителей (Левый нижний угол) на базе CounterAPI
  */
 
-export function initSiteCounter() {
-    // 1. АВТОМАТИЧЕСКИЙ ЗАПУСК GOATCOUNTER БЕЗ ЛОМАНИЯ HTML
-    // Код сам создает скрытый скрипт в памяти браузера, поэтому в index.html ничего писать не нужно!
+export async function initSiteCounter() {
+    // Уникальные ключи для вашей базы данных.
+    // Название 'eternitas_manga_project' создаст изолированную ячейку лично для вас
+    const namespace = "eternitas_manga_project";
+    const key = "main_page_visits";
+
+    // API-ссылка для автоматического накручивания +1 просмотра при каждом заходе
+    const incrementUrl = `https://counterapi.dev{namespace}/${key}/increment`;
+
+    let currentCount = "000000"; // Стартовое значение на случай сбоя сети
+
+    // 1. Быстро запрашиваем у облака текущее число просмотров без блокировок браузера
     try {
-        const gcScript = document.createElement("script");
-        // НАСТРОЙКА: Замените 'sovenkaapg' на то имя аккаунта (код), которое вы ввели при регистрации на goatcounter.com
-        gcScript.setAttribute("data-goatcounter", "https://goatcounter.com");
-        gcScript.async = true;
-        gcScript.src = "//gc.zgo.at/count.js";
-        document.head.appendChild(gcScript);
-    } catch (e) {
-        console.error("Ошибка инициализации метрики GoatCounter:", e);
+        const response = await fetch(incrementUrl);
+        const data = await response.json();
+        if (data && data.value) {
+            // Форматируем число, чтобы оно выглядело по-игровому (например, 000142)
+            currentCount = String(data.value).padStart(6, '0');
+        }
+    } catch (err) {
+        console.warn("Режим автономного подключения. Облако недоступно локально.");
     }
 
-    // 2. СОЗДАНИЕ ВИЗУАЛЬНОГО ИНТЕРФЕЙСА (Ваш скрытый PNG-глаз)
+    // 2. Создаем главный контейнер для левого нижнего угла
     const counterWrapper = document.createElement("div");
     counterWrapper.className = "portal-stealth-counter";
     
-    // Позиционируем строго в левом нижнем углу сайта
+    // Задаем базовые стили для закрепления в левом нижнем углу
     Object.assign(counterWrapper.style, {
         "position": "fixed",
         "bottom": "20px",
@@ -44,7 +53,7 @@ export function initSiteCounter() {
             transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         " />
 
-        <!-- Всплывающий блок при наведении -->
+        <!-- Всплывающий блок счётчика -->
         <div class="stealth-counter-data" style="
             display: flex;
             flex-direction: column;
@@ -66,13 +75,24 @@ export function initSiteCounter() {
             ">
                 SYSTEM ACTIVE // MONITORING
             </span>
-            <span style="
-                color: #a09aa3;
+            
+            <!-- Полностью ваш собственный неоновый индикатор с цифрами вместо картинок -->
+            <div style="
+                background: #1b1424;
+                border: 1px solid #ff7b00;
+                border-radius: 4px;
+                padding: 3px 8px;
                 font-size: 11px;
-                font-family: sans-serif;
+                font-weight: bold;
+                color: white;
+                letter-spacing: 1px;
+                box-shadow: 0 0 8px rgba(255, 123, 0, 0.4);
+                display: flex;
+                gap: 5px;
             ">
-                [ Счётчик запущен в Эфире ]
-            </span>
+                <span style="color: #ff7b00; font-size: 9px; text-transform: uppercase;">Nodes:</span>
+                <span>${currentCount}</span>
+            </div>
         </div>
     `;
 
