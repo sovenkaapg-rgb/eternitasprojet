@@ -5,7 +5,7 @@
 export async function initSiteCounter() {
     // Уникальные ключи для вашей базы данных.
     // Название 'eternitas_manga_project' создаст изолированную ячейку лично для вас
-    const namespace = "eternitas_manga_project";
+    const namespace = "sovenkaapg-s-team";
     const key = "main_page_visits";
 
     // API-ссылка для автоматического накручивания +1 просмотра при каждом заходе
