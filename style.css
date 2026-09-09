@@ -1,6 +1,4 @@
-/* ==========================================================================
-   ШРИФТЫ И ОБЩИЕ СБРОСЫ
-   ========================================================================== */
+
 @font-face { font-family: 'DarckF'; src: url('fonts/dirs.otf') format('truetype'); }
 @font-face { font-family: 'ClassicF'; src: url('fonts/slepy.ttf') format('truetype'); }
 @font-face { font-family: 'EsteticF'; src: url('fonts/Lazurski Bold.ttf.ttf') format('truetype'); }
@@ -25,9 +23,7 @@ html, body {
     filter: drop-shadow(0 0 8px #ff7b00);
 }
 
-/* ==========================================================================
-   ГЛАВНЫЙ ЭКРАН И НАВИГАЦИЯ ПОРТАЛА
-   ========================================================================== */
+
 .bg {
     position: fixed; top: 0; left: 0;
     width: 100vw; height: 100vh; z-index: -2;
@@ -74,9 +70,6 @@ html, body {
     border-radius: 12px; text-align: center; max-width: 600px; box-sizing: border-box;
 }
 
-/* ==========================================================================
-   СПИСОК ГЛАВ И КОМИКС-ВИДЖЕТЫ
-   ========================================================================== */
 .chapters-list {
     display: flex; flex-direction: column; gap: 20px;
     height: calc(100vh - 180px); max-height: calc(100vh - 180px); overflow-y: auto;        
@@ -145,9 +138,7 @@ html, body {
     transform: scale(1.1);
 }
 
-/* ==========================================================================
-   БОКОВОЕ МЕНЮ СЕКРЕТНОГО АРХИВА
-   ========================================================================== */
+
 .archive-indicator { position: absolute; top: 2px; right: 2px; width: 12px; height: 12px; background: #ff3b30; border-radius: 50%; box-shadow: 0 0 8px #ff3b30; display: none; }
 
 .archive-sidebar {
@@ -208,30 +199,53 @@ html, body {
     margin: 0;
     font-size: 12px;
     line-height: 1.4; color: #a09aa3; }
+
 /* ==========================================ИГРОВЫЕ УВЕДОМЛЕНИЯ (TOAST)========================================== */
-.game-alert-toast {position: fixed; bottom: 25px; right: -350px; z-index: 1000;border-radius: 8px; padding: 14px 20px;box-shadow: 0 0 15px rgba(255, 123, 0, 0.3), inset 0 0 10px rgba(255, 123, 0, 0.1);border-color: #ff7b00;transition: right 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
+.game-alert-toast {
+    position: fixed; 
+    bottom: 25px; 
+    right: -350px; 
+    z-index: 1000;
+    border-radius: 8px; 
+    padding: 14px 20px;
+    box-shadow: 0 0 15px rgba(255, 123, 0, 0.3), inset 0 0 10px rgba(255, 123, 0, 0.1);
+    border: 1px solid #ff7b00;
+    transition: right 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
 .game-alert-toast.show { right: 25px; }
-.game-alert-content { display: flex; align-items: center; gap: 12px; font-family: sans-serif; color: #e2dbe5; font-size: 14px; letter-spacing: 0.5px; }
-.game-alert-icon { font-size: 18px; filter: drop-shadow(0 0 5px #ff7b00); }
+.game-alert-content { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    font-family: sans-serif; 
+    color: #e2dbe5; 
+    font-size: 14px; 
+    letter-spacing: 0.5px; 
+}
+.game-alert-icon { 
+    font-size: 18px; 
+    filter: drop-shadow(0 0 5px #ff7b00); 
+}
+
 /* Контейнер для вкладок на всю ширину меню */
 .archive-tabs-nav {
     display: flex;
     width: 100%;
-    background: rgba(0, 0, 0, 0.4); /* Темная подложка */
+    background: rgba(0, 0, 0, 0.4);
     border: 1px solid rgba(255, 123, 0, 0.15);
-    border-radius: 8px; /* Скругляем края всей плашки */
+    border-radius: 8px;
     margin-bottom: 20px;
     overflow: hidden;
-    padding: 3px; /* Внутренний зазор */
+    padding: 3px;
     box-sizing: border-box;
 }
 
 /* Стильные кнопки переключения */
 .archive-tab-btn {
-    flex: 1; /* Каждая кнопка занимает ровно половину ширины */
+    flex: 1;
     background: none;
     border: none;
-    color: #666; /* Неактивный текст делаем приглушенным */
+    color: #666;
     font-size: 14px;
     font-family: sans-serif;
     font-weight: bold;
@@ -240,11 +254,6 @@ html, body {
     border-radius: 6px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: center;
-}
-
-/* Эффект наведения на неактивную вкладку */
-.archive-tab-btn:hover:not(.active) {
-    color: #b0aab2;
 }
 
 /* Активная вкладка с мягким неоновым свечением */
