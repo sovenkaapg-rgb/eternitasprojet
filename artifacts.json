@@ -3,7 +3,7 @@
     "name": "Видеокамера Георгия",
     "type": "Артефакт",
     "avatar": "Slepye/artifacts/camera.webp",
-    "titleFolder": "Slepye",
+    "titleFolder": "ChernoeBoloto",
     "isSecret": false,
     "descriptionStages": [
       { "page": 0, "text": "Старая кассетная камера. Георгий никогда с ней не расставался." }

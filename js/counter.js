@@ -1,14 +1,26 @@
 /**
- * Модуль скрытого неонового счётчика посетителей (Левый нижний угол)
+ * Модуль скрытого неонового счётчика посетителей (Левый нижний угол) + GoatCounter
  */
 
 export function initSiteCounter() {
-    // 1. Создаем главный контейнер для левого нижнего угла
+    // 1. АВТОМАТИЧЕСКИЙ ЗАПУСК GOATCOUNTER БЕЗ ЛОМАНИЯ HTML
+    // Код сам создает скрытый скрипт в памяти браузера, поэтому в index.html ничего писать не нужно!
+    try {
+        const gcScript = document.createElement("script");
+        // НАСТРОЙКА: Замените 'sovenkaapg' на то имя аккаунта (код), которое вы ввели при регистрации на goatcounter.com
+        gcScript.setAttribute("data-goatcounter", "https://goatcounter.com");
+        gcScript.async = true;
+        gcScript.src = "//gc.zgo.at/count.js";
+        document.head.appendChild(gcScript);
+    } catch (e) {
+        console.error("Ошибка инициализации метрики GoatCounter:", e);
+    }
+
+    // 2. СОЗДАНИЕ ВИЗУАЛЬНОГО ИНТЕРФЕЙСА (Ваш скрытый PNG-глаз)
     const counterWrapper = document.createElement("div");
     counterWrapper.className = "portal-stealth-counter";
     
-    // Задаем базовые стили для закрепления в левом нижнем углу
-    // ИСПРАВЛЕНО: Все CSS-свойства с дефисами теперь обернуты в кавычки для JS-совместимости
+    // Позиционируем строго в левом нижнем углу сайта
     Object.assign(counterWrapper.style, {
         "position": "fixed",
         "bottom": "20px",
@@ -20,13 +32,9 @@ export function initSiteCounter() {
         "font-family": "sans-serif"
     });
 
-    // ИСПРАВЛЕНО: Возвращаем правильный системный SVG-адрес генератора счетчиков для GitHub
-    const counterSvgUrl = `https://seeyoufarm.com`;
-
-    // 2. Наполняем разметку: ваш PNG-глаз и скрытый блок с цифрами
     counterWrapper.innerHTML = `
-        <!-- Ваша иконка-глаз из ресурсов -->
-        <img src="ПАПКА С РЕСУРСАМИ/eye.png" class="stealth-eye-icon" alt="System Node" style="
+        <!-- Ваша иконка-глаз из ресурсов (imgR/eye.webp) -->
+        <img src="imgR/eye.webp" class="stealth-eye-icon" alt="System Node" style="
             width: 24px;
             height: 24px;
             object-fit: contain;
@@ -36,7 +44,7 @@ export function initSiteCounter() {
             transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         " />
 
-        <!-- Всплывающий блок счётчика -->
+        <!-- Всплывающий блок при наведении -->
         <div class="stealth-counter-data" style="
             display: flex;
             flex-direction: column;
@@ -56,15 +64,19 @@ export function initSiteCounter() {
                 text-shadow: 0 0 5px rgba(255, 123, 0, 0.5);
                 white-space: nowrap;
             ">
-                SYSTEM ACTIVE // CONNECTED
+                SYSTEM ACTIVE // MONITORING
             </span>
-            <div style="filter: drop-shadow(0 0 6px rgba(255, 123, 0, 0.5));">
-                <img src="${counterSvgUrl}" alt="Nodes" style="display: block; height: 16px; border-radius: 3px;" />
-            </div>
+            <span style="
+                color: #a09aa3;
+                font-size: 11px;
+                font-family: sans-serif;
+            ">
+                [ Счётчик запущен в Эфире ]
+            </span>
         </div>
     `;
 
-    // 3. Добавляем интерактивность наведения мыши (Hover) через JS
+    // 3. Интерактивность наведения мыши (Hover)
     const eyeIcon = counterWrapper.querySelector(".stealth-eye-icon");
     const counterData = counterWrapper.querySelector(".stealth-counter-data");
 
@@ -90,6 +102,6 @@ export function initSiteCounter() {
         });
     }
 
-    // Встраиваем готовый элемент на все экраны сайта
+    // Встраиваем готовый элемент на экран сайта
     document.body.appendChild(counterWrapper);
 }
