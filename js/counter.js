@@ -5,8 +5,8 @@
 export async function initSiteCounter() {
     // Уникальные ключи для вашей базы данных.
     // Название 'eternitas_manga_project' создаст изолированную ячейку лично для вас
-    const namespace = "sovenkaapg-s-team";
-    const key = "main_page_visits";
+    const namespace = "sovenkaapgs-team-5459";
+    const key = "first-counter-5459";
 
     // API-ссылка для автоматического накручивания +1 просмотра при каждом заходе
     const incrementUrl = `https://counterapi.dev{namespace}/${key}/increment`;
@@ -52,7 +52,7 @@ export async function initSiteCounter() {
             filter: drop-shadow(0 0 5px rgba(255, 123, 0, 0));
             transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         " />
-
+        
         <!-- Всплывающий блок счётчика -->
         <div class="stealth-counter-data" style="
             display: flex;
@@ -90,6 +90,7 @@ export async function initSiteCounter() {
                 display: flex;
                 gap: 5px;
             ">
+            
                 <span style="color: #ff7b00; font-size: 9px; text-transform: uppercase;">Nodes:</span>
                 <span>${currentCount}</span>
             </div>

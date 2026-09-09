@@ -133,11 +133,12 @@ function initInteractivity() {
     });
 
 
-       if (DOM.archiveEyeBtn && DOM.archiveSidebar) {
+           // [ОСТАВИТЬ ТОЛЬКО ОДИН РАЗ] Логика открытия Архива
+    if (DOM.archiveEyeBtn && DOM.archiveSidebar) {
         DOM.archiveEyeBtn.addEventListener("click", () => {
             DOM.archiveSidebar.classList.add("open");
             if (DOM.archiveIndicator) DOM.archiveIndicator.style.display = "none";
-
+            
             if (activeTab === "chat") {
                 updateArchiveDocuments(State.currentTitleIndex, State.mangaUniverse, [], false, true);
             } else {
@@ -146,14 +147,34 @@ function initInteractivity() {
             }
         });
     }
-    
-       // Жесткая логика закрытия Архива по клику на крестик
+
+    // Жесткая логика закрытия Архива по клику на крестик
     if (DOM.closeArchiveBtn && DOM.archiveSidebar) {
         DOM.closeArchiveBtn.addEventListener("click", (e) => {
-            e.stopPropagation(); // Запрещаем клику уходить во фреймы
+            e.preventDefault();
+            e.stopPropagation(); // Полностью изолируем клик от внешних контейнеров
             DOM.archiveSidebar.classList.remove("open");
         });
     }
+
+    
+   // Жесткая логика закрытия читалки по клику на крестик
+if (DOM.closeReaderBtn && DOM.reader) {
+    DOM.closeReaderBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        DOM.reader.classList.remove("active");
+        
+        setTimeout(() => {
+            DOM.pagesContainer.innerHTML = "";
+            if (DOM.progressFill) {
+                DOM.progressFill.style.width = "0%";
+            }
+            State.isClosing = false;
+            State.activeChapterData = null;
+        }, 400);
+    });
+}
+
 
 
     window.addEventListener("keydown", (e) => {
