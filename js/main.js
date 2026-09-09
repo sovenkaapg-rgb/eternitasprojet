@@ -2,6 +2,8 @@ import { fetchDatabases } from './api.js';
 import { Storage } from './storage.js';
 import { DOM, renderTitle, updateArchiveDocuments } from './ui.js';
 import { handleReadingScroll } from './core.js';
+import { initSiteCounter } from './counter.js';
+
 
 const State = {
     mangaUniverse: [],
@@ -14,11 +16,16 @@ const State = {
 
 document.addEventListener("DOMContentLoaded", async () => {
     try {
+        // 1. Загружаем базы данных
         const data = await fetchDatabases();
         State.mangaUniverse = data.universeData;
         State.archiveLoreDatabase = data.loreData;
         State.archiveArtifactsDatabase = data.artifactsData;
 
+        // 2. ЗАПУСК СКРЫТОГО СЧЁТЧИКА
+        initSiteCounter();
+
+        // 3. Инициализируем статусы скрытых комиксов
         for (let i = 0, len = State.mangaUniverse.length; i < len; i++) {
             const t = State.mangaUniverse[i];
             const key = `manga_unlocked_${t.folder}`;
@@ -27,13 +34,17 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         }
 
+        // 4. Отрисовываем интерфейс и включаем клики
         renderTitle(State.currentTitleIndex, State.mangaUniverse);
         initInteractivity();
 
     } catch (err) {
+        console.error("Ошибка инициализации приложения:", err);
         if (DOM.titleName) DOM.titleName.textContent = "Ошибка JSON";
     }
 });
+
+
 
 function initInteractivity() {
     let activeTab = "lore"; // Регистрируем активный таб один раз внутри интерактивности
@@ -96,8 +107,7 @@ function initInteractivity() {
         DOM.archiveEyeBtn.addEventListener("click", () => {
             DOM.archiveSidebar.classList.add("open");
             if (DOM.archiveIndicator) DOM.archiveIndicator.style.display = "none";
-
-            const currentDb = (activeTab === "lore") ? State.archiveLoreDatabase : State.archiveArtifactsDatabase;
+            const currentDb = (activeTab === "lore") ? State.archiveLoreDatabase :State.archiveArtifactsDatabase;
             updateArchiveDocuments(State.currentTitleIndex, State.mangaUniverse, currentDb, activeTab === "artifacts");
         });
     }
@@ -137,20 +147,14 @@ function initInteractivity() {
         });
     }
     
-    if (DOM.closeReaderBtn) {
-        DOM.closeReaderBtn.addEventListener("click", () => {
-            if (State.isClosing) return; 
-            State.isClosing = true;
-            DOM.reader.classList.remove("active");
-
-            setTimeout(() => {
-                DOM.pagesContainer.innerHTML = "";
-                if (DOM.progressFill) DOM.progressFill.style.width = "0%";
-                State.isClosing = false;
-                State.activeChapterData = null;
-            }, 400);
+       // Жесткая логика закрытия Архива по клику на крестик
+    if (DOM.closeArchiveBtn && DOM.archiveSidebar) {
+        DOM.closeArchiveBtn.addEventListener("click", (e) => {
+            e.stopPropagation(); // Запрещаем клику уходить во фреймы
+            DOM.archiveSidebar.classList.remove("open");
         });
     }
+
 
     window.addEventListener("keydown", (e) => {
         if (e.key === "F4") {

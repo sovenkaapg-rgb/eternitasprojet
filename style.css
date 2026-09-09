@@ -151,14 +151,31 @@ html, body {
 .archive-indicator { position: absolute; top: 2px; right: 2px; width: 12px; height: 12px; background: #ff3b30; border-radius: 50%; box-shadow: 0 0 8px #ff3b30; display: none; }
 
 .archive-sidebar {
-    position: fixed; top: 0; right: -350px; width: 320px; height: 100vh;
+    position: fixed;
+    top: 0; 
+    right: -350px; width: 320px; height: 100vh;
     background: rgba(15, 12, 18, 0.98); border-left: 2px solid rgba(255, 123, 0, 0.3); box-shadow: -10px 0 30px rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px); z-index: 100; padding: 30px 20px; box-sizing: border-box;
+    backdrop-filter: blur(10px); 
+    z-index: 100; padding: 30px 20px; 
+    box-sizing: border-box;
     display: flex; flex-direction: column; transition: right 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 .archive-sidebar.open { right: 0; }
 
-.close-archive-btn { align-self: flex-end; background: none; border: none; color: #888; font-size: 14px; cursor: pointer; margin-bottom: 20px; }
+.close-archive-btn {
+    align-self: flex-end; 
+    background: none; 
+    border: none; 
+    color: #888; 
+    font-size: 14px; 
+    cursor: pointer; 
+    margin-bottom: 20px;
+    position: relative; /* Добавляем позиционирование */
+    z-index: 110;       
+     pointer-events: auto !important;
+    transition: color 0.2s ease;
+
+}
 .close-archive-btn:hover { color: white; }
 
 .archive-sidebar-title { color: #ff7b00; margin: 0 0 25px 0; font-size: 22px; letter-spacing: 1px; text-shadow: 0 0 10px rgba(255, 123, 0, 0.3); font-family: sans-serif; }
