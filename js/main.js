@@ -2,7 +2,7 @@ import { fetchDatabases } from './api.js';
 import { Storage } from './storage.js';
 import { DOM, renderTitle, updateArchiveDocuments } from './ui.js';
 import { handleReadingScroll } from './core.js';
-import { initSiteCounter } from './counter.js';
+//import { initSiteCounter } from './counter.js';
 
 const State = {
     mangaUniverse: [],
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         State.archiveArtifactsDatabase = data.artifactsData;
 
         // 2. Запуск скрытого счётчика
-        await initSiteCounter();
+        //await initSiteCounter();
 
         // 3. Инициализируем статусы скрытых комиксов
         for (let i = 0, len = State.mangaUniverse.length; i < len; i++) {
