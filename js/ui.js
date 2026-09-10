@@ -125,50 +125,46 @@ export function updateArchiveDocuments(currentTitleIndex, mangaUniverse, databas
     const fragment = document.createDocumentFragment();
 
     filtered.forEach(item => {
-        const isVisible = !item.is_secret || (item.unlock_page && Storage.isPageRead(item.unlock_page));
-        const div = document.createElement("div");
-        div.className = `doc-item ${isVisible ? 'unlocked' : 'locked'}`;
-
-        if (isVisible) {
-            let detailsHTML = "";
-            const stages = isArtifacts ? item.description_stages : item.biography_stages;
-
-            stages?.forEach(stage => {
-                if (!stage.page || Storage.isPageRead(stage.page)) {
-                    detailsHTML += (!stage.page) 
-                        ? stage.text 
-                        : ` <span style="color:#ff7b00;">[доп.]</span> ${stage.text}`;
-                }
-            });
-
-            const correctAvatarPath = item.avatar.startsWith('imgR/') 
-                ? item.avatar 
-                : `imgR/${item.avatar}`;
-
-            div.innerHTML = `
-                <div class="doc-card-layout">
-                    <img src="${correctAvatarPath}" class="doc-avatar" alt="avatar">
-                    <div class="doc-text-block">
-                        <span class="doc-type-tag">${isArtifacts ? (item.type || 'Артефакт') : getLatestValue(item.type_stages, item.type)}</span>
-                        <h4 class="doc-name">${getLatestValue(item.name_stages, item.name)}</h4>
-                        ${!isArtifacts && item.status_stages ? `<p class="doc-details" style="color: #ffaa00; font-weight: bold; margin-bottom: 4px;">${getLatestValue(item.status_stages, "")}</p>` : ''}
-                        <p class="doc-details">${detailsHTML}</p>
-                    </div>
-                </div>`;
-        } else {
-            div.innerHTML = `
-                <div class="doc-card-layout locked-status">
-                    <div class="doc-avatar silhouette">🔒</div>
-                    <div class="doc-text-block">
-                        <span class="doc-type-tag" style="color: #ff3b30;">ДАННЫЕ СКРЫТЫ</span>
-                        <h4 class="doc-name">???</h4>
-                        <p class="doc-details">Продолжайте чтение для разблокировки информации.</p>
-                    </div>
-                </div>`;
-        }
-
-        fragment.appendChild(div);
-    });
+    const isVisible = !item.is_secret || (item.unlock_page && Storage.isPageRead(item.unlock_page));
+    const div = document.createElement("div");
+    div.className = `doc-item ${isVisible ? 'unlocked' : 'locked'}`;
+    
+    if (isVisible) {
+        let detailsHTML = "";
+        const stages = isArtifacts ? item.description_stages : item.biography_stages;
+        
+        stages?.forEach(stage => {
+            if (!stage.page || Storage.isPageRead(stage.page)) {
+                detailsHTML += (!stage.page) ? stage.text : ` <span style="color:#ff7b00;">[доп.]</span> ${stage.text}`;
+            }
+        });
+        
+        const correctAvatarPath = item.avatar?.startsWith('imgR/') ? item.avatar : `imgR/${item.avatar}`;
+        
+        div.innerHTML = `
+            <div class="doc-card-layout">
+                ${item.avatar ? `<img src="${correctAvatarPath}" class="doc-avatar" alt="avatar">` : '<div class="doc-avatar silhouette">?</div>'}
+                <div class="doc-text-block">
+                    <span class="doc-type-tag">${isArtifacts ? (item.type || 'Артефакт') : getLatestValue(item.type_stages, item.type)}</span>
+                    <h4 class="doc-name">${getLatestValue(item.name_stages, item.name)}</h4>
+                    ${!isArtifacts && item.status_stages ? `<p class="doc-details" style="color: #ffaa00; font-weight: bold; margin-bottom: 4px;">${getLatestValue(item.status_stages, "")}</p>` : ''}
+                    <p class="doc-details">${detailsHTML}</p>
+                </div>
+            </div>`;
+    } else {
+        div.innerHTML = `
+            <div class="doc-card-layout locked-status">
+                <div class="doc-avatar silhouette"></div>
+                <div class="doc-text-block">
+                    <span class="doc-type-tag" style="color: #ff3b30;">ДАННЫЕ СКРЫТЫ</span>
+                    <h4 class="doc-name">???</h4>
+                    <p class="doc-details">Продолжайте чтение для разблокировки информации.</p>
+                </div>
+            </div>`;
+    }
+    
+    fragment.appendChild(div);
+});
 
     DOM.documentsGrid.appendChild(fragment);
 }
