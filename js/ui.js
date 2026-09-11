@@ -52,6 +52,7 @@ function createChapterWidget(chapter, chIdx, folder, matchedStamp) {
 
     // ✅ ВЕРНУЛИ ПРЕВЬЮ ИЗ 3 СТРАНИЦ КОМИКСА ДЛЯ ВЕЕРА!
     w.innerHTML = `
+        <img src="${cp}/cover.webp" alt="cover" onerror="this.style.display='none'">
         <div class="widget-info">
             <span class="chapter-number">ГЛАВА ${chapter.chapter_id || (chIdx + 1)}</span>
         </div>

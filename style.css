@@ -351,7 +351,7 @@ html, body {
     pointer-events: none;
     opacity: 0.8;
     filter: drop-shadow(0 0 8px currentColor);
-    z-index: 2;
+    z-index: 5;
     /* ✅ Анимация stampAppear удалена, штамп больше не прыгает */
 }
 
