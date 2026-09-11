@@ -17,7 +17,7 @@ html, body {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
-/* Общий неоновый оранжевый эффект при наведении / активации */
+
 .nav-arrow-btn:hover, .close-reader-btn:hover, .archive-eye-btn:hover {
     color: white;
     filter: drop-shadow(0 0 8px #ff7b00);
@@ -87,7 +87,7 @@ html, body {
     transition: all 0.4s ease;
 }
 .comic-widget:hover { filter: brightness(1) saturate(1); box-shadow: 0 8px 25px rgba(0,0,0,0.5); }
-.comic-widget > img { width: 100px; height: 100%; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
+.comic-widget > img { width: 111px; height: 100%; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
 
 .widget-info { display: flex; flex-direction: column; gap: 6px; margin-left: 15px; flex-shrink: 0; font-family: 'ComicCustom', sans-serif; color: white; }
 .comic-title { margin: 0; font-size: 20px; }
@@ -263,4 +263,106 @@ html, body {
     border: 1px solid rgba(255, 123, 0, 0.3);
     text-shadow: 0 0 8px rgba(255, 123, 0, 0.5);
     box-shadow: inset 0 0 10px rgba(255, 123, 0, 0.05);
+}
+
+/* Отметка о прочитанности главы */
+.read-mark {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 6px rgba(255, 123, 0, 0.6));
+    animation: markAppear 0.4s ease-out;
+    pointer-events: none;
+}
+
+@keyframes markAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.5) rotate(-15deg);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+/* Убедимся, что widget-info позиционируется относительно */
+.widget-info {
+    position: relative;
+}
+
+/* Блок счетчика печатей в архиве */
+.stamps-counter-block {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 123, 0, 0.1);
+    border: 1px solid rgba(255, 123, 0, 0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.stamps-counter-block:hover {
+    background: rgba(255, 123, 0, 0.15);
+    box-shadow: 0 0 15px rgba(255, 123, 0, 0.2);
+}
+
+.stamp-icon {
+    font-size: 24px;
+    filter: drop-shadow(0 0 6px #ff7b00);
+}
+
+.stamp-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.stamp-label {
+    font-size: 10px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stamp-count {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff7b00;
+    text-shadow: 0 0 8px rgba(255, 123, 0, 0.4);
+}
+
+/* Печать на карточке главы — исправленная */
+.chapter-stamp {
+    position: absolute;
+    top: 50%;
+    right: 35%;
+    
+    width: 50px;
+    height: 50px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: none;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 8px currentColor);
+    z-index: 2;
+    /* ✅ Анимация stampAppear удалена, штамп больше не прыгает */
+}
+
+
+@keyframes stampAppear {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5) rotate(-15deg);
+    }
+    to {
+        opacity: 0.7;
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    }
 }

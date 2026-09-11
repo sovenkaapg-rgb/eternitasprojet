@@ -1,14 +1,14 @@
-import { fetchDatabases } from './api.js';
+import { fetchDatabases, loadChapterMarks } from './api.js';
 import { Storage } from './storage.js';
 import { DOM, renderTitle, updateArchiveDocuments } from './ui.js';
 import { handleReadingScroll } from './core.js';
-//import { initSiteCounter } from './counter.js';
 
 const State = {
     mangaUniverse: [],
     archiveLoreDatabase: [],
     archiveArtifactsDatabase: [],
-    currentTitleIndex: parseInt(localStorage.getItem('last_title_index')) || 0,  // ← Загружаем из памяти
+    chapterMarks: [],
+    currentTitleIndex: parseInt(localStorage.getItem('last_title_index')) || 0,
     activeChapterData: null,
     isClosing: false
 };
@@ -21,20 +21,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         State.archiveLoreDatabase = data.loreData;
         State.archiveArtifactsDatabase = data.artifactsData;
 
-        // 2. Запуск скрытого счётчика
-        //await initSiteCounter();
+        // 2. Загружаем печати глав
+        State.chapterMarks = await loadChapterMarks();
 
-        // 3. Инициализируем статусы скрытых комиксов
+
+        // 4. Инициализируем статусы скрытых комиксов
         for (let i = 0, len = State.mangaUniverse.length; i < len; i++) {
             const t = State.mangaUniverse[i];
             const key = `manga_unlocked_${t.folder}`;
+            // ✅ ИСПРАВЛЕНО: is_locked вместо isLocked
             if (t.is_locked && !localStorage.getItem(key)) {
                 Storage.setTitleUnlocked(t.folder, "false");
             }
         }
 
-        // 4. Отрисовываем интерфейс
-        renderTitle(State.currentTitleIndex, State.mangaUniverse);
+        // 5. Отрисовываем интерфейс
+        renderTitle(State.currentTitleIndex, State.mangaUniverse,State.chapterMarks);
         initInteractivity();
 
     } catch (err) {
@@ -46,16 +48,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 function initInteractivity() {
     let activeTab = "lore";
 
-    if (DOM.prevBtn) DOM.prevBtn.addEventListener("click", () => {
-              State.currentTitleIndex = (State.currentTitleIndex - 1 + State.mangaUniverse.length) % State.mangaUniverse.length;
-              localStorage.setItem('last_title_index', State.currentTitleIndex);  // ← Сохраняем
-    renderTitle(State.currentTitleIndex, State.mangaUniverse);
-});
-if (DOM.nextBtn) DOM.nextBtn.addEventListener("click", () => {
-    State.currentTitleIndex = (State.currentTitleIndex + 1) % State.mangaUniverse.length;
-    localStorage.setItem('last_title_index', State.currentTitleIndex);  // ← Сохраняем
-    renderTitle(State.currentTitleIndex, State.mangaUniverse);
-});
+    // Навигация по тайтлам
+    if (DOM.prevBtn) {
+        DOM.prevBtn.addEventListener("click", () => {
+            State.currentTitleIndex = (State.currentTitleIndex - 1 + State.mangaUniverse.length) % State.mangaUniverse.length;
+            localStorage.setItem('last_title_index', String(State.currentTitleIndex));
+            renderTitle(State.currentTitleIndex, State.mangaUniverse, State.chapterMarks);
+        });
+    }
+
+    if (DOM.nextBtn) {
+        DOM.nextBtn.addEventListener("click", () => {
+            State.currentTitleIndex = (State.currentTitleIndex + 1) % State.mangaUniverse.length;
+            localStorage.setItem('last_title_index', String(State.currentTitleIndex));
+            renderTitle(State.currentTitleIndex, State.mangaUniverse, State.chapterMarks);
+        });
+    }
 
     // Клик по главе → открытие читалки
     if (DOM.chaptersContainer) {
@@ -75,22 +83,7 @@ if (DOM.nextBtn) DOM.nextBtn.addEventListener("click", () => {
                 img.className = "manga-page";
                 fragment.appendChild(img);
             }
-            
-            // Добавь этот блок после обработчика скролла читалки:
-if (DOM.closeReaderBtn) {
-    DOM.closeReaderBtn.addEventListener("click", () => {
-        DOM.reader.classList.remove("active");
-        setTimeout(() => {
-            DOM.pagesContainer.innerHTML = "";
-            if (DOM.progressFill) {
-                DOM.progressFill.style.width = "0%";
-            }
-            State.activeChapterData = null;
-        }, 400);
-    });
-}
-            
-            
+
             DOM.pagesContainer.appendChild(fragment);
             DOM.pagesContainer.style.filter = (titleData.folder === "ChernoeBoloto")
                 ? "blur(0.3px) drop-shadow(1.5px 0px 0px rgba(255,0,0,0.35)) drop-shadow(-1.5px 0px 0px rgba(0,0,255,0.35))"
@@ -99,9 +92,29 @@ if (DOM.closeReaderBtn) {
             DOM.reader.classList.add("active");
             DOM.reader.scrollTo(0, 0);
 
-            // Сохраняем данные текущей главы для отслеживания прогресса
+            // Показываем кнопку закрытия
+            if (DOM.closeReaderBtn) {
+                DOM.closeReaderBtn.style.display = "block";
+            }
+
+            // Сохраняем данные текущей главы
             const chIdx = parseInt(w.dataset.chIndex);
             State.activeChapterData = titleData.chapters[chIdx];
+        });
+    }
+
+    // ✅ ОБРАБОТЧИК КНОПКИ ЗАКРЫТИЯ ЧИТАЛКИ (ОТДЕЛЬНО!)
+    if (DOM.closeReaderBtn) {
+        DOM.closeReaderBtn.addEventListener("click", () => {
+            DOM.reader.classList.remove("active");
+            DOM.closeReaderBtn.style.display = "none";
+            setTimeout(() => {
+                DOM.pagesContainer.innerHTML = "";
+                if (DOM.progressFill) {
+                    DOM.progressFill.style.width = "0%";
+                }
+                State.activeChapterData = null;
+            }, 400);
         });
     }
 
@@ -118,19 +131,18 @@ if (DOM.closeReaderBtn) {
         });
     }
 
-    // Открытие архива (ОДИН обработчик)
+    // ✅ ОТКРЫТИЕ АРХИВА (ОДИН ОБРАБОТЧИК, БЕЗ ДУБЛЕЙ)
+      // ✅ ОТКРЫТИЕ АРХИВА
     if (DOM.archiveEyeBtn && DOM.archiveSidebar) {
         DOM.archiveEyeBtn.addEventListener("click", () => {
             DOM.archiveSidebar.classList.add("open");
             if (DOM.archiveIndicator) DOM.archiveIndicator.style.display = "none";
 
             if (activeTab === "chat") {
-                updateArchiveDocuments(State.currentTitleIndex, State.mangaUniverse, [], false, true);
+                updateArchiveDocuments(State.currentTitleIndex, State.mangaUniverse, [], false, true, State.chapterMarks);
             } else {
-                const currentDb = (activeTab === "lore") 
-                    ? State.archiveLoreDatabase 
-                    : State.archiveArtifactsDatabase;
-                updateArchiveDocuments(State.currentTitleIndex, State.mangaUniverse, currentDb, activeTab === "artifacts", false);
+                const currentDb = (activeTab === "lore") ? State.archiveLoreDatabase : State.archiveArtifactsDatabase;
+                updateArchiveDocuments(State.currentTitleIndex, State.mangaUniverse, currentDb, activeTab === "artifacts", false, State.chapterMarks);
             }
         });
     }
@@ -144,16 +156,15 @@ if (DOM.closeReaderBtn) {
             activeTab = btn.dataset.tab;
 
             if (activeTab === "chat") {
-                updateArchiveDocuments(State.currentTitleIndex, State.mangaUniverse, [], false, true);
+                updateArchiveDocuments(State.currentTitleIndex, State.mangaUniverse, [], false, true, State.chapterMarks);
             } else {
                 const isArtifacts = (activeTab === "artifacts");
-                const currentDb = isArtifacts 
-                    ? State.archiveArtifactsDatabase 
-                    : State.archiveLoreDatabase;
-                updateArchiveDocuments(State.currentTitleIndex, State.mangaUniverse, currentDb, isArtifacts, false);
+                const currentDb = isArtifacts ? State.archiveArtifactsDatabase : State.archiveLoreDatabase;
+                updateArchiveDocuments(State.currentTitleIndex, State.mangaUniverse, currentDb, isArtifacts, false, State.chapterMarks);
             }
         });
     });
+
 
     // Закрытие архива
     if (DOM.closeArchiveBtn && DOM.archiveSidebar) {

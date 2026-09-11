@@ -69,11 +69,12 @@ export function handleReadingScroll(state) {
         if (dataUpdated) {
             if (DOM.archiveIndicator) DOM.archiveIndicator.style.display = "block";
             showGameAlert(alertMessage);
-            renderTitle(state.currentTitleIndex, state.mangaUniverse);
+            renderTitle(state.currentTitleIndex, state.mangaUniverse, state.chapterMarks);
         }
     }
 
     // Закрытие читалки при достижении конца
+       // Закрытие читалки при достижении конца
     if (!state.isClosing) {
         const lastPage = DOM.pagesContainer.lastElementChild;
         if (lastPage) {
@@ -83,6 +84,7 @@ export function handleReadingScroll(state) {
                 DOM.reader.classList.remove("active");
                 setTimeout(() => {
                     DOM.pagesContainer.innerHTML = "";
+                    // Используем глобальный объект DOM из ui.js
                     if (DOM.progressFill) {
                         DOM.progressFill.style.width = "0%";
                     }
@@ -92,4 +94,5 @@ export function handleReadingScroll(state) {
             }
         }
     }
+
 }

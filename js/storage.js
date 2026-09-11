@@ -15,3 +15,4 @@ export const Storage = {
         localStorage.clear();
     }
 };
+

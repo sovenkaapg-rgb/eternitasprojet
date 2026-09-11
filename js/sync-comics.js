@@ -108,7 +108,10 @@ const pagesCount = pages.length;
             if (folder === "ChernoeBoloto" && chFolder === "ch1") {
                 displayNum = "начало";
             }
-
+            
+            // Извлекаем номер главы из имени папки (ch1 → 1, ch10 → 10, ch2 → 2)
+            const chapterNumber = parseInt(chFolder.replace('ch', ''), 10);
+            
             // 4. Отправляем данные в Supabase (создаем главу или обновляем счетчик страниц, если она уже была)
             const { error: upsertError } = await supabase
                 .from('chapters')
@@ -116,7 +119,8 @@ const pagesCount = pages.length;
                     title_id: titleRecord.id,
                     chapter_id_str: chFolder,
                     display_num: displayNum,
-                    pages_count: pagesCount
+                    pages_count: pagesCount,
+                    sort_order: chapterNumber
                 }, {
                     onConflict: 'title_id,chapter_id_str' // Условие уникальности главы внутри одного комикса
                 });
