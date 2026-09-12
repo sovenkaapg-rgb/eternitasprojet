@@ -1,6 +1,6 @@
 import { fetchDatabases, loadChapterMarks } from './api.js';
 import { Storage } from './storage.js';
-import { DOM, renderTitle, updateArchiveDocuments } from './ui.js';
+import { DOM, renderTitle, updateArchiveDocuments } from './ui.js'; // Убедитесь, что импорт из ui.js
 import { handleReadingScroll } from './core.js';
 
 const State = {
