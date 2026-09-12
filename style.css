@@ -1,7 +1,7 @@
 
 @font-face { font-family: 'DarckF'; src: url('fonts/dirs.otf') format('truetype'); }
 @font-face { font-family: 'ClassicF'; src: url('fonts/slepy.ttf') format('truetype'); }
-@font-face { font-family: 'EsteticF'; src: url('fonts/Lazurski Bold.ttf.ttf') format('truetype'); }
+@font-face { font-family: 'EsteticF'; src: url('fonts/LazurskiBold.ttf') format('truetype'); }
 
 html, body {
     margin: 0; padding: 0;
@@ -342,7 +342,6 @@ html, body {
     position: absolute;
     top: 50%;
     right: 35%;
-    
     width: 50px;
     height: 50px;
     background-size: contain;
@@ -355,14 +354,3 @@ html, body {
     /* ✅ Анимация stampAppear удалена, штамп больше не прыгает */
 }
 
-
-@keyframes stampAppear {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.5) rotate(-15deg);
-    }
-    to {
-        opacity: 0.7;
-        transform: translate(-50%, -50%) scale(1) rotate(0deg);
-    }
-}

@@ -25,11 +25,28 @@ export function createChapterWidget(chapter, chIdx, folder, matchedStamp) {
         </div>
     `;
 
+        // === ИСПРАВЛЕННЫЙ БЛОК ОТОБРАЖЕНИЯ ШТАМПА НА ГЛАВЕ ===
     const firstPageKey = `${folder}_${chapter.chapter_id_str}_p1`;
     if (Storage.isPageRead(firstPageKey) && matchedStamp) {
         const stampDiv = document.createElement("div");
         stampDiv.className = "chapter-stamp";
-        stampDiv.style.backgroundImage = `url('${matchedStamp.mark_image}')`;
+        
+        // 1. Извлекаем чистое имя файла, как вы сделали в счетчике
+        let cleanMarkImage = matchedStamp.mark_image || "";
+        if (cleanMarkImage.includes('/')) {
+            cleanMarkImage = cleanMarkImage.split('/').pop();
+        }
+        if (cleanMarkImage.endsWith('.png')) {
+            cleanMarkImage = cleanMarkImage.replace('.png', '.webp');
+        }
+
+        // 2. Формируем правильную ссылку на Supabase Storage
+        const stampFilename = cleanMarkImage.includes('http')
+            ? cleanMarkImage
+            : `${SUPABASE_STORAGE_URL}/imgR/stamps/${cleanMarkImage}`;
+
+        // 3. Устанавливаем корректный фоновый рисунок
+        stampDiv.style.backgroundImage = `url('${stampFilename}')`;
         stampDiv.style.color = matchedStamp.mark_color || "#ff7b00";
         w.appendChild(stampDiv);
     }
@@ -37,13 +54,18 @@ export function createChapterWidget(chapter, chIdx, folder, matchedStamp) {
     return w;
 }
 
-// Компонент блока со счетчиком полученных печатей
 export function createStampsCounterElement(mangaUniverse, chapterMarks) {
     let unlockedStampsHtml = "";
     let totalUnlockedCount = 0;
 
+    console.log("=== ТЕСТ СЧЕТЧИКА ШТАМПОВ ===");
+    console.log("Загружено из базы chapterMarks:", chapterMarks);
+
     mangaUniverse.forEach(title => {
         const matchedStamp = chapterMarks.find(m => m.title_folder === title.folder);
+        
+        console.log(`Проверяем тайтл folder: "${title.folder}". Найдена ли для него печать?:`, !!matchedStamp);
+
         if (!matchedStamp || !title.chapters) return;
 
         let titleOpenedChapters = 0;
@@ -51,16 +73,33 @@ export function createStampsCounterElement(mangaUniverse, chapterMarks) {
 
         title.chapters.forEach(chapter => {
             const firstPageKey = `${title.folder}_${chapter.chapter_id_str}_p1`;
-            if (Storage.isPageRead(firstPageKey)) {
+            const isRead = Storage.isPageRead(firstPageKey);
+            
+            // Выводим в консоль проверяемый ключ и статус прочтения страницы
+            console.log(`  Глава "${chapter.chapter_id_str}". Проверка ключа в localStorage: "${firstPageKey}" -> Результат: ${isRead}`);
+
+            if (isRead) {
                 totalUnlockedCount++;
                 titleOpenedChapters++;
             }
         });
 
         if (titleOpenedChapters > 0) {
+            let cleanMarkImage = matchedStamp.mark_image || "";
+            if (cleanMarkImage.includes('/')) {
+                cleanMarkImage = cleanMarkImage.split('/').pop();
+            }
+            if (cleanMarkImage.endsWith('.png')) {
+                cleanMarkImage = cleanMarkImage.replace('.png', '.webp');
+            }
+
+            const stampFilename = cleanMarkImage.includes('http')
+                ? cleanMarkImage
+                : `${SUPABASE_STORAGE_URL}/imgR/stamps/${cleanMarkImage}`;
+
             unlockedStampsHtml += `
                 <div style="position: relative; display: inline-block; margin-right: 12px; margin-bottom: 8px;" title="${title.name}">
-                    <img src="${matchedStamp.mark_image}" 
+                    <img src="${stampFilename}" 
                          style="width: 32px; height: 32px; object-fit: contain; filter: drop-shadow(0 0 6px ${matchedStamp.mark_color || '#ff7b00'});">
                     <span style="position: absolute; bottom: -4px; right: -4px; background: #000; color: #fff; font-size: 9px; padding: 1px 3px; border-radius: 4px; border: 1px solid ${matchedStamp.mark_color || '#ff7b00'}; font-weight: bold;">
                         ${titleOpenedChapters}/${totalChaptersInTitle}
@@ -82,3 +121,4 @@ export function createStampsCounterElement(mangaUniverse, chapterMarks) {
     `;
     return counterBlock;
 }
+

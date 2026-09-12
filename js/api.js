@@ -73,3 +73,14 @@ export async function loadChapterMarks() {
 
     return [];
 }
+
+// Функция для получения публичной ссылки на изображения из хранилища Supabase
+export function getStorageUrl(filePath) {
+    const SUPABASE_URL = "https://tbjxlennbadvkevuyanf.supabase.co";
+    const BUCKET_NAME = "comic-assets";
+    
+    // Очищаем путь от лишних ведущих слэшей, если они есть
+    const cleanPath = filePath.startsWith('/') ? filePath.slice(1) : filePath;
+    
+    return `${SUPABASE_URL}/storage/v1/object/public/${BUCKET_NAME}/${cleanPath}`;
+}
