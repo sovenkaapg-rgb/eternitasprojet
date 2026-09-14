@@ -161,7 +161,7 @@ export function renderVideos(titleFolder, videosData, container) {
                 <iframe 
                     src="${embedUrl}" 
                     frameborder="0" 
-                    allow="autoplay; encrypted-media; fullscreen; picture-in-picture" 
+                    allow="encrypted-media; fullscreen; picture-in-picture" 
                     allowfullscreen 
                     referrerpolicy="no-referrer-when-downgrade"
                     loading="lazy">
