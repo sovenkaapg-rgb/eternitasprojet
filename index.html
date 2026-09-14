@@ -14,7 +14,7 @@
     
     <!-- Верхняя анимированная лента -->
     <div class="lines"></div>
-    
+
     <!-- ГЛАВНОЕ ОКНО ПОРТАЛА -->
     <div class="portal-interface" id="portal-screen">
         
@@ -27,17 +27,10 @@
             </div>
             <p id="current-title-synopsis">Описание комикса подгрузится автоматически.</p>
         </div>
-          <div class="view-switcher">
-            <button class="switch-btn active" data-view="chapters">Главы</button>
-            <button class="switch-btn" data-view="videos"> Видео</button>
-        </div>
-          <!-- Контейнер для глав -->
-        <div id="chapters-list-container" class="chapters-list"></div>
-        
-        <!-- Контейнер для видео -->
-        <div id="videosContainer" class="chapters-list hidden"></div>
+
+        <!-- Лента глав, которая крутится колесиком -->
+        <div class="chapters-list" id="chapters-list-container"></div>
     </div>
-    
 
     <!-- ОКНО ЧИТАЛКИ -->
     <div class="reader-overlay" id="comic-reader">
