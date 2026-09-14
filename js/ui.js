@@ -112,3 +112,72 @@ export function updateArchiveDocuments(currentTitleIndex, mangaUniverse, databas
 
     DOM.documentsGrid.appendChild(fragment);
 }
+
+export function renderVideos(titleFolder, videosData, container) {
+    if (!container) return;
+    container.innerHTML = "";
+    
+    if (!videosData || videosData.length === 0) {
+        container.innerHTML = `<div class="empty-videos">Видеоматериалы для этой локации пока не добавлены.</div>`;
+        return;
+    }
+    
+    const fragment = document.createDocumentFragment();
+    const sortedVideos = [...videosData].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+    
+    sortedVideos.forEach(video => {
+        if (!video.url) return;
+        
+        const div = document.createElement("div");
+        div.className = "video-widget";
+        
+        // 1. Очищаем ссылку от случайных пробелов
+        let cleanUrl = video.url.trim();
+        
+        // 2. Срезаем слэш на конце, если он есть (это защитит от пустых ID)
+        if (cleanUrl.endsWith('/')) {
+            cleanUrl = cleanUrl.slice(0, -1);
+        }
+        
+        let embedUrl = cleanUrl;
+        
+        // ✅ Обработка VK Видео
+        if (cleanUrl.includes("vk.com/video")) {
+            const videoId = cleanUrl.match(/video(-?\d+)_(\d+)/);
+            if (videoId) {
+                embedUrl = `https://vk.com/video_ext.php?oid=${videoId[1]}&id=${videoId[2]}&hd=2`;
+            }
+        }
+        // ✅ Обработка Coub (теперь на 100% безопасная)
+        else if (cleanUrl.includes("coub.com")) {
+            // Извлекаем чистый ID без лишних знаков на конце
+            const coubId = cleanUrl.split('/view/')[1] || cleanUrl.split('/').pop();
+            embedUrl = `https://coub.com/embed/${coubId}?muted=false&autostart=false&originalSize=true&startWithHD=true`;
+        }
+        
+        div.innerHTML = `
+            <div class="video-title">${video.title}</div>
+            <div class="video-embed-container">
+                <iframe 
+                    src="${embedUrl}" 
+                    frameborder="0" 
+                    allow="autoplay; encrypted-media; fullscreen; picture-in-picture" 
+                    allowfullscreen 
+                    referrerpolicy="no-referrer-when-downgrade"
+                    loading="lazy">
+                </iframe>
+            </div>
+        `;
+        fragment.appendChild(div);
+    });
+    
+    container.appendChild(fragment);
+}
+
+
+
+
+
+
+
+
