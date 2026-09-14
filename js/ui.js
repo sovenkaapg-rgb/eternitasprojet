@@ -127,41 +127,46 @@ export function renderVideos(titleFolder, videosData, container) {
     
     sortedVideos.forEach(video => {
         if (!video.url) return;
-        
         const div = document.createElement("div");
         div.className = "video-widget";
         
         // 1. Очищаем ссылку от случайных пробелов
         let cleanUrl = video.url.trim();
-        
-        // 2. Срезаем слэш на конце, если он есть (это защитит от пустых ID)
+        // 2. Срезаем слэш на конце, если он есть
         if (cleanUrl.endsWith('/')) {
             cleanUrl = cleanUrl.slice(0, -1);
         }
         
         let embedUrl = cleanUrl;
         
-        // ✅ Обработка VK Видео
+        // ✅ Обработка VK Видео (Добавлен autoplay=0)
         if (cleanUrl.includes("vk.com/video")) {
             const videoId = cleanUrl.match(/video(-?\d+)_(\d+)/);
             if (videoId) {
-                embedUrl = `https://vk.com/video_ext.php?oid=${videoId[1]}&id=${videoId[2]}&hd=2`;
+                // &autoplay=0 запрещает автоматический старт
+                embedUrl = `https://vk.com/video_ext.php?oid=${videoId[1]}&id=${videoId[2]}&hd=2&autoplay=0`;
             }
         }
-        // ✅ Обработка Coub (теперь на 100% безопасная)
+        // ✅ Обработка Coub
         else if (cleanUrl.includes("coub.com")) {
-            // Извлекаем чистый ID без лишних знаков на конце
             const coubId = cleanUrl.split('/view/')[1] || cleanUrl.split('/').pop();
+            // autostart=false запрещает автостарт. 
+            // Если хотите, чтобы видео точно не издавали звук при случайном старте, можно поставить muted=true
             embedUrl = `https://coub.com/embed/${coubId}?muted=false&autostart=false&originalSize=true&startWithHD=true`;
         }
-        
+        // ✅ Если вдруг добавите YouTube или другие платформы
+        else if (cleanUrl.includes("youtube.com") || cleanUrl.includes("youtu.be")) {
+            // Для YouTube параметр autoplay=0
+            embedUrl = cleanUrl.includes('?') ? `${cleanUrl}&autoplay=0` : `${cleanUrl}?autoplay=0`;
+        }
+
         div.innerHTML = `
             <div class="video-title">${video.title}</div>
             <div class="video-embed-container">
                 <iframe 
                     src="${embedUrl}" 
                     frameborder="0" 
-                    allow="autoplay; encrypted-media; fullscreen; picture-in-picture" 
+                    allow="encrypted-media; fullscreen; picture-in-picture" 
                     allowfullscreen 
                     referrerpolicy="no-referrer-when-downgrade"
                     loading="lazy">
@@ -170,9 +175,12 @@ export function renderVideos(titleFolder, videosData, container) {
         `;
         fragment.appendChild(div);
     });
-    
     container.appendChild(fragment);
 }
+
+
+
+
 
 
 
