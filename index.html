@@ -4,11 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="warning-modal.css">
     <!-- Удалите старые строки 7 и 8, и оставьте только эту одну: -->
     <script src="js/main.js" type="module"></script>
+    
+    
+    
+    
     <title>Aeternitas project</title>
 </head>
 <body>    
+    
+    
+    
+    
+    
+    
     <!-- Задний фон сайта -->
     <div class="bg"></div>    
     
@@ -89,6 +101,24 @@
 </div>
 
 <!-- Контейнер для отображения печатей на главах -->
-<div id="chapter-marks-container" style="display:none;"></div>      
+<div id="chapter-marks-container" style="display:none;"></div> 
+    
+   <!-- Подключаем разметку модального окна -->
+<div id="warningModalContainer"></div>
+
+<script>
+    // Загружаем HTML модального окна
+    fetch('warning-modal.html')
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('warningModalContainer').innerHTML = html;
+        })
+        .catch(err => console.error('Error loading warning modal:', err));
+</script>
+
+<!-- Подключаем логику модального окна -->
+<script src="js/warning-modal.js" defer></script> 
+    
+    
 </body>
 </html>

@@ -116,12 +116,10 @@ export function updateArchiveDocuments(currentTitleIndex, mangaUniverse, databas
 export function renderVideos(titleFolder, videosData, container) {
     if (!container) return;
     container.innerHTML = "";
-    
     if (!videosData || videosData.length === 0) {
         container.innerHTML = `<div class="empty-videos">Видеоматериалы для этой локации пока не добавлены.</div>`;
         return;
     }
-    
     const fragment = document.createDocumentFragment();
     const sortedVideos = [...videosData].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
     
@@ -130,39 +128,51 @@ export function renderVideos(titleFolder, videosData, container) {
         const div = document.createElement("div");
         div.className = "video-widget";
         
-        // 1. Очищаем ссылку от случайных пробелов
         let cleanUrl = video.url.trim();
-        // 2. Срезаем слэш на конце, если он есть
-        if (cleanUrl.endsWith('/')) {
-            cleanUrl = cleanUrl.slice(0, -1);
-        }
+        if (cleanUrl.endsWith('/')) cleanUrl = cleanUrl.slice(0, -1);
         
-        let embedUrl = cleanUrl;
+        // Определяем тип ссылки: прямое видео или внешняя платформа
+        const isDirectVideo = /\.(mp4|webm|mov|m4v)(\?|$)/i.test(cleanUrl);
         
-        // ✅ Обработка VK Видео (Добавлен autoplay=0)
-        if (cleanUrl.includes("vk.com/video")) {
-            const videoId = cleanUrl.match(/video(-?\d+)_(\d+)/);
-            if (videoId) {
-                // &autoplay=0 запрещает автоматический старт
-                embedUrl = `https://vk.com/video_ext.php?oid=${videoId[1]}&id=${videoId[2]}&hd=2&autoplay=0`;
+        let mediaHTML = "";
+        
+        if (isDirectVideo) {
+            // Прямая ссылка на видеофайл из Supabase Storage
+            // preload="none" - НЕ загружать видео до клика пользователя
+            // controls - показать элементы управления
+            // БЕЗ autoplay - никакого автозапуска!
+            mediaHTML = `
+                <video 
+                    controls 
+                    preload="none"
+                    playsinline
+                    style="width: 100%; height: 100%; background: #000;">
+                    <source src="${cleanUrl}" type="video/mp4">
+                    Ваш браузер не поддерживает видео.
+                </video>
+            `;
+        } else {
+            // Внешняя платформа (VK, Coub, YouTube)
+            let embedUrl = cleanUrl;
+            
+            if (cleanUrl.includes("vk.com/video")) {
+                const videoId = cleanUrl.match(/video(-?\d+)_(\d+)/);
+                if (videoId) {
+                    embedUrl = `https://vk.com/video_ext.php?oid=${videoId[1]}&id=${videoId[2]}&hd=2&autoplay=0`;
+                }
+            } else if (cleanUrl.includes("coub.com")) {
+                const coubId = cleanUrl.split('/view/')[1] || cleanUrl.split('/').pop();
+                embedUrl = `https://coub.com/embed/${coubId}?muted=true&autostart=false&originalSize=true&startWithHD=true`;
+            } else if (cleanUrl.includes("youtube.com") || cleanUrl.includes("youtu.be")) {
+                let ytId = '';
+                if (cleanUrl.includes("youtu.be/")) ytId = cleanUrl.split('youtu.be/')[1].split('?')[0];
+                else if (cleanUrl.includes("watch?v=")) ytId = cleanUrl.split('watch?v=')[1].split('&')[0];
+                else if (cleanUrl.includes("/embed/")) ytId = cleanUrl.split('/embed/')[1].split('?')[0];
+                
+                if (ytId) embedUrl = `https://www.youtube.com/embed/${ytId}?autoplay=0&mute=1`;
             }
-        }
-        // ✅ Обработка Coub
-        else if (cleanUrl.includes("coub.com")) {
-            const coubId = cleanUrl.split('/view/')[1] || cleanUrl.split('/').pop();
-            // autostart=false запрещает автостарт. 
-            // Если хотите, чтобы видео точно не издавали звук при случайном старте, можно поставить muted=true
-            embedUrl = `https://coub.com/embed/${coubId}?muted=false&autostart=false&originalSize=true&startWithHD=true`;
-        }
-        // ✅ Если вдруг добавите YouTube или другие платформы
-        else if (cleanUrl.includes("youtube.com") || cleanUrl.includes("youtu.be")) {
-            // Для YouTube параметр autoplay=0
-            embedUrl = cleanUrl.includes('?') ? `${cleanUrl}&autoplay=0` : `${cleanUrl}?autoplay=0`;
-        }
-
-        div.innerHTML = `
-            <div class="video-title">${video.title}</div>
-            <div class="video-embed-container">
+            
+            mediaHTML = `
                 <iframe 
                     src="${embedUrl}" 
                     frameborder="0" 
@@ -171,6 +181,13 @@ export function renderVideos(titleFolder, videosData, container) {
                     referrerpolicy="no-referrer-when-downgrade"
                     loading="lazy">
                 </iframe>
+            `;
+        }
+        
+        div.innerHTML = `
+            <div class="video-title">${video.title}</div>
+            <div class="video-embed-container">
+                ${mediaHTML}
             </div>
         `;
         fragment.appendChild(div);

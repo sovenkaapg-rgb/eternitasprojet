@@ -1,0 +1,45 @@
+<!-- Модальное окно предупреждения 17+ -->
+<div id="warningModal" class="warning-modal" style="display: none;">
+    <div class="warning-modal__backdrop"></div>
+    <div class="warning-modal__content">
+        <!-- Стилизованный глаз с анимацией -->
+        <div class="warning-eye">
+            <svg viewBox="0 0 200 120" class="warning-eye__svg">
+                <!-- Внешний контур глаза (черный с красной окантовкой) -->
+                <path class="warning-eye__outline" d="M 10 60 Q 100 -10 190 60 Q 100 130 10 60 Z" 
+                      fill="#0a0a0a" stroke="#ff3b30" stroke-width="3"/>
+                <!-- Внутренняя тень -->
+                <path class="warning-eye__inner-shadow" d="M 20 60 Q 100 5 180 60 Q 100 115 20 60 Z" 
+                      fill="rgba(255, 59, 48, 0.1)"/>
+                <!-- Радужка (темная) -->
+                <circle class="warning-eye__iris" cx="100" cy="60" r="35" 
+                        fill="#1a1a1a" stroke="#ff7b00" stroke-width="2"/>
+                <!-- Зрачок (желтый, будет двигаться) -->
+                <circle class="warning-eye__pupil" cx="100" cy="60" r="18" 
+                        fill="#ffcc00" filter="url(#pupilGlow)"/>
+                <!-- Блик на зрачке -->
+                <circle class="warning-eye__highlight" cx="93" cy="53" r="6" 
+                        fill="rgba(255, 255, 255, 0.8)"/>
+                <!-- Свечение зрачка -->
+                <defs>
+                    <filter id="pupilGlow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="4" result="blur"/>
+                        <feMerge>
+                            <feMergeNode in="blur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+            </svg>
+        </div>
+        
+        <h2 class="warning-modal__title">ВНИМАНИЕ</h2>
+        <div class="warning-modal__divider"></div>
+        <div class="warning-modal__text">
+            <p class="warning-modal__age-badge">18+</p>
+            <p>Данный сайт содержит <strong>авторский контент</strong>, предназначенный исключительно для лиц старше 18 лет.</p>
+            <p>Материалы могут включать сцены насилия, психологические темы и элементы хоррора.</p>
+        </div>
+        <button id="warningAcceptBtn" class="warning-modal__btn">ВОЙТИ НА САЙТ</button>
+    </div>
+</div>
