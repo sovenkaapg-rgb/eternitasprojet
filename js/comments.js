@@ -5,8 +5,8 @@
 // ==========================================
 // НАСТРОЙКА: Вставьте сюда свои ключи из настроек Supabase (Вкладка API)
 // ==========================================
-const SUPABASE_URL = "https://lxfkjjctsrakayzqyiac.supabase.co";
-const SUPABASE_KEY = "sb_publishable_zMxBVM29AeqCja0GdMGJ5g_CKPJmGgf"
+const SUPABASE_URL = "";
+const SUPABASE_KEY = ""
 
 /**
  * Главный метод отрисовки форума в Секретном Архиве
